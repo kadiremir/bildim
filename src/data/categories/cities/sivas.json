@@ -1,0 +1,11 @@
+{
+  "id": "sivas",
+  "answer": "sivas",
+  "hints": [
+    { "type": "text", "content": "Bu şehirde 1919'da Atatürk'ün başkanlık ettiği ve Kurtuluş Savaşı'nı şekillendiren büyük bir kongre toplandı." },
+    { "type": "text", "content": "Divriği Ulu Camii ve Darüşşifası bu ile bağlıdır; UNESCO Dünya Mirası listesindedir." },
+    { "type": "text", "content": "İç Anadolu'nun doğusunda yer alır ve oldukça geniş bir yüzölçümüne sahiptir." },
+    { "type": "text", "content": "Kangal balıklarıyla bilinen Kangal İlçesi bu şehre bağlıdır; balıklar cilt hastalıklarını tedavi eder diye bilinir." },
+    { "type": "text", "content": "Selçuklu döneminden kalma medrese ve kervansarayları bu şehri açık hava müzesi gibi yapar." }
+  ]
+}

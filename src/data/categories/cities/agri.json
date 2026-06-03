@@ -1,0 +1,11 @@
+{
+  "id": "agri",
+  "answer": "ağrı",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yanında Türkiye'nin en yüksek dağı yükselir; 5.137 metre yüksekliğindedir." },
+    { "type": "text", "content": "Nuh'un Gemisi'nin bu dağa oturduğuna dair efsaneler anlatılır." },
+    { "type": "text", "content": "Doğu Anadolu'nun en doğusunda yer alır; İran sınırına yakındır." },
+    { "type": "text", "content": "Kışları çok sert geçer; kar bazen birkaç metreye ulaşabilir." },
+    { "type": "text", "content": "Ağrı Dağı (Ararat) bu şehrin simgesidir ve Türkiye'nin doğal sembollerinden biri sayılır." }
+  ]
+}

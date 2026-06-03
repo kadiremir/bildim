@@ -1,0 +1,11 @@
+{
+  "id": "bayburt",
+  "answer": "bayburt",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en küçük yüzölçümlü ve en az nüfuslu illerinden biridir." },
+    { "type": "text", "content": "Çoruh Nehri bu şehrin içinden geçer ve rafting için ideal bir güzergah sunar." },
+    { "type": "text", "content": "Bayburt Kalesi kentin üzerinde bir tepe üzerinde yükselir ve tarihi çok eskidir." },
+    { "type": "text", "content": "Trabzon ile Erzurum arasında dağlık bir geçiş noktasında yer alır." },
+    { "type": "text", "content": "Sert kışları ve dağlık coğrafyasıyla sakin bir Doğu Karadeniz ili olarak bilinir." }
+  ]
+}

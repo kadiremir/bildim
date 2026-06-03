@@ -1,0 +1,11 @@
+{
+  "id": "mus",
+  "answer": "muş",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Doğu Anadolu'da geniş bir ova üzerine kurulmuştur." },
+    { "type": "text", "content": "İlkbaharda ovası lale çiçekleriyle pembeye bürünür; bu manzara büyüleyicidir." },
+    { "type": "text", "content": "Van Gölü'ne ve Bingöl iline komşu olan bu şehir dağlarla çevrilidir." },
+    { "type": "text", "content": "Hayvancılık ve tarım bu şehrin ekonomisinin temelini oluşturur." },
+    { "type": "text", "content": "Türkiye'nin en az bilinen ve en sade şehirlerinden biridir; doğası bozulmamıştır." }
+  ]
+}

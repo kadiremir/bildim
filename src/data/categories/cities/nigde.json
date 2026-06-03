@@ -1,0 +1,11 @@
+{
+  "id": "nigde",
+  "answer": "niğde",
+  "hints": [
+    { "type": "text", "content": "Bu şehir İç Anadolu'da Toros Dağları'nın kuzey eteklerinde yer alır." },
+    { "type": "text", "content": "Patates tarımında Türkiye'nin önde gelen illerinden biridir." },
+    { "type": "text", "content": "Aladağlar Milli Parkı bu ile bağlıdır; tırmanma ve doğa yürüyüşleri için idealdir." },
+    { "type": "text", "content": "Nevşehir ve Adana arasında önemli bir geçiş noktasında konumlanmıştır." },
+    { "type": "text", "content": "Tarihi kalesi ve selçuklu dönemi eserleriyle kültürel açıdan zengin bir şehirdir." }
+  ]
+}

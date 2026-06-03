@@ -1,0 +1,11 @@
+{
+  "id": "ordu",
+  "answer": "ordu",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin fındık üretiminde birinci sıradadır; neredeyse dünyanın fındığının yarısı burada yetişir." },
+    { "type": "text", "content": "Karadeniz kıyısında yemyeşil tepeler ve çay bahçeleriyle çevrilidir." },
+    { "type": "text", "content": "Boztepe tepesinden şehrin ve denizin manzarası çok güzeldir." },
+    { "type": "text", "content": "Her yıl fındık hasadı zamanı çevre illerden çok sayıda mevsimlik işçi bu şehre gelir." },
+    { "type": "text", "content": "Samsun ile Giresun arasında yer alan bu şehirde iklim ılıman ve yağışlıdır." }
+  ]
+}

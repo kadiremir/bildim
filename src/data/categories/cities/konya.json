@@ -1,0 +1,11 @@
+{
+  "id": "konya",
+  "answer": "konya",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin tam ortasında, İç Anadolu'da yer alır." },
+    { "type": "text", "content": "Hz. Mevlana'nın türbesi bu şehirdedir; sema dansı burada doğmuştur." },
+    { "type": "text", "content": "Etli ekmek bu şehre özgü çok lezzetli bir yiyecektir." },
+    { "type": "text", "content": "İç Anadolu'nun en büyük şehridir." },
+    { "type": "text", "content": "Yüzyıllardır tahıl tarımının merkezi olan bu şehir çevresinde uçsuz bucaksız düz ovalar uzanır." }
+  ]
+}

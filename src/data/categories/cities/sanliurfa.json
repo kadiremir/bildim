@@ -1,0 +1,11 @@
+{
+  "id": "sanliurfa",
+  "answer": "şanlıurfa",
+  "hints": [
+    { "type": "text", "content": "Bu şehir 'peygamberler şehri' olarak bilinir; Hz. İbrahim burada doğmuştur." },
+    { "type": "text", "content": "Balıklıgöl bu şehrin en ünlü mekanıdır; sazan balıkları kutsal sayıldığından dokunulmaz." },
+    { "type": "text", "content": "Güneydoğu Anadolu'da yer alır ve tarihi Harran Ovası bu ile bağlıdır." },
+    { "type": "text", "content": "Harran'daki konik damlı evler dünyanın başka hiçbir yerinde görülmeyen bir mimaridir." },
+    { "type": "text", "content": "Kurtuluş Savaşı'ndaki kahramanlıkları nedeniyle adına 'Şanlı' sıfatı eklenmiştir." }
+  ]
+}

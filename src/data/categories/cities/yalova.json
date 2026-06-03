@@ -1,0 +1,11 @@
+{
+  "id": "yalova",
+  "answer": "yalova",
+  "hints": [
+    { "type": "text", "content": "Bu küçük şehir Marmara Denizi'nin güney kıyısında yer alır ve İstanbul'a feribot seferleriyle bağlıdır." },
+    { "type": "text", "content": "Termal kaplıcaları çok ünlüdür; Atatürk bu şehrin kaplıcalarını çok severdi ve burada dinlenirdi." },
+    { "type": "text", "content": "Türkiye'nin en küçük yüzölçümlü ikinci ilidir." },
+    { "type": "text", "content": "Çiçek fidesi ve peyzaj bitkisi yetiştiriciliğinde Türkiye'de önemli bir merkezdir." },
+    { "type": "text", "content": "İstanbul'a yakınlığı nedeniyle hafta sonları piknik ve termal tatil için çok tercih edilir." }
+  ]
+}

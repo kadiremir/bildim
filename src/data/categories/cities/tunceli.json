@@ -1,0 +1,11 @@
+{
+  "id": "tunceli",
+  "answer": "tunceli",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en az nüfuslu illerinden biridir; doğası hâlâ el değmemiş haldedir." },
+    { "type": "text", "content": "Munzur Vadisi Milli Parkı bu ile bağlıdır; berrak dere suları ve vahşi doğasıyla ünlüdür." },
+    { "type": "text", "content": "Fırat ve Dicle nehirlerinin kollarının aktığı bu bölgede dağlar çok sarp ve gizemlidir." },
+    { "type": "text", "content": "Anadolu'nun en eski kültürlerinden Alevi-Bektaşi geleneği bu şehirde çok güçlüdür." },
+    { "type": "text", "content": "Elazığ ve Erzincan arasında uzanan bu şehre ulaşmak için sarp dağ yolları aşılır." }
+  ]
+}

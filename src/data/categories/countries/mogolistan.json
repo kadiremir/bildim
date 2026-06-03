@@ -1,0 +1,11 @@
+{
+  "id": "mogolistan",
+  "answer": "moğolistan",
+  "hints": [
+    { "type": "text", "content": "Bu ülkede insandan çok at vardır — her 10 kişiye yaklaşık 13 at düşer." },
+    { "type": "text", "content": "Dünyanın en seyrek nüfuslu bağımsız devletidir." },
+    { "type": "text", "content": "Geleneksel konutlar ger adı verilen dairesel keçe çadırlardır; bugün hâlâ yaygın biçimde kullanılmaktadır." },
+    { "type": "text", "content": "Rusya ile Çin arasına sıkışmış, denize çıkışı olmayan bir ülkedir." },
+    { "type": "text", "content": "Cengiz Han bu ülkede doğmuş ve tarihin en büyük kara imparatorluğunu kurmuştur." }
+  ]
+}

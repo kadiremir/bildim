@@ -1,0 +1,11 @@
+{
+  "id": "diyarbakir",
+  "answer": "diyarbakır",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin surları siyah bazalt taşından inşa edilmiştir ve UNESCO Dünya Mirası listesindedir." },
+    { "type": "text", "content": "Dicle Nehri bu şehrin yanı başından akar." },
+    { "type": "text", "content": "Karpuzu çok meşhurdur; bu şehirde yetişen karpuzlar kışkırtıcı büyüklüklere ulaşabilir." },
+    { "type": "text", "content": "Güneydoğu Anadolu'nun en büyük şehridir." },
+    { "type": "text", "content": "Hz. Süleyman Camii olarak da bilinen Ulu Cami, Türkiye'nin en eski camilerinden biridir." }
+  ]
+}

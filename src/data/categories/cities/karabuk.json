@@ -1,0 +1,11 @@
+{
+  "id": "karabuk",
+  "answer": "karabük",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin ilk ve en büyük demir-çelik fabrikasının kurulduğu yerdir." },
+    { "type": "text", "content": "1937'de kurulan Karabük Demir Çelik İşletmeleri bu şehri sanayi kentine dönüştürdü." },
+    { "type": "text", "content": "Batı Karadeniz'de yer alır ve çevre illere göre daha sanayi odaklıdır." },
+    { "type": "text", "content": "Safranbolu ilçesi bu ile bağlıdır; ahşap Osmanlı evleriyle UNESCO Dünya Mirası listesindedir." },
+    { "type": "text", "content": "Safranbolu'nun adı safran baharatından gelir; tarihte bu bölgede safran yetiştirilirdi." }
+  ]
+}

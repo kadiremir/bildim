@@ -1,0 +1,11 @@
+{
+  "id": "samsun",
+  "answer": "samsun",
+  "hints": [
+    { "type": "text", "content": "Atatürk Kurtuluş Savaşı'nı başlatmak için 19 Mayıs 1919'da bu şehre ayak basmıştır." },
+    { "type": "text", "content": "Karadeniz'in en büyük liman şehirlerinden biridir." },
+    { "type": "text", "content": "Tütün tarımı ve ticareti tarihsel olarak bu şehrin ekonomisinde önemli bir yer tutmuştur." },
+    { "type": "text", "content": "19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı bu şehirdeki çıkarmayla ilişkilidir." },
+    { "type": "text", "content": "Orta Karadeniz kıyısında yer alır ve çevre illerle iç Anadolu'yu birbirine bağlar." }
+  ]
+}

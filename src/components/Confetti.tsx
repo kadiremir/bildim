@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, View, Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, StyleSheet, View, useWindowDimensions } from 'react-native';
 
 const COLORS = [
   '#F59E0B', '#3B82F6', '#10B981', '#EF4444',
@@ -15,22 +13,30 @@ interface Particle {
   y: Animated.Value;
   rotate: Animated.Value;
   opacity: Animated.Value;
+  targetX: number;
+  targetY: number;
+  fallY: number;
+  duration: number;
+  spin: number;
   color: string;
   size: number;
   shape: 'rect' | 'circle';
 }
 
 function createParticle(originX: number, originY: number): Particle {
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 180 + Math.random() * 260;
-  const vx = Math.cos(angle) * speed;
-  const vy = Math.sin(angle) * speed - 260; // upward bias
+  const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.35;
+  const speed = 180 + Math.random() * 320;
 
   return {
     x: new Animated.Value(originX),
     y: new Animated.Value(originY),
     rotate: new Animated.Value(0),
     opacity: new Animated.Value(1),
+    targetX: originX + Math.cos(angle) * speed,
+    targetY: originY + Math.sin(angle) * speed,
+    fallY: originY + 600,
+    duration: 900 + Math.random() * 400,
+    spin: (Math.random() - 0.5) * 1440,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     size: 6 + Math.random() * 8,
     shape: Math.random() > 0.4 ? 'rect' : 'circle',
@@ -38,52 +44,50 @@ function createParticle(originX: number, originY: number): Particle {
 }
 
 interface Props {
-  trigger: number; // increment to fire
+  trigger: number;
   originX?: number;
   originY?: number;
 }
 
-export function Confetti({ trigger, originX = width / 2, originY = height / 2 }: Props) {
-  const particles = useRef<Particle[]>([]);
+export function Confetti({ trigger, originX, originY }: Props) {
+  const { width, height } = useWindowDimensions();
+  const resolvedOriginX = originX ?? width / 2;
+  const resolvedOriginY = originY ?? height / 2;
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const animations = useRef<Animated.CompositeAnimation[]>([]);
   const prevTrigger = useRef(-1);
 
   useEffect(() => {
-    if (trigger === prevTrigger.current || trigger === 0) return;
+    if (trigger === prevTrigger.current || trigger === 0) return undefined;
     prevTrigger.current = trigger;
+    animations.current.forEach((animation) => animation.stop());
 
-    particles.current = Array.from({ length: PARTICLE_COUNT }, () =>
-      createParticle(originX, originY)
+    const nextParticles = Array.from({ length: PARTICLE_COUNT }, () =>
+      createParticle(resolvedOriginX, resolvedOriginY)
     );
+    setParticles(nextParticles);
 
-    particles.current.forEach((p) => {
-      const angle = Math.atan2(
-        (p.y as any)._value - originY,
-        (p.x as any)._value - originX,
-      );
-      const speed = 200 + Math.random() * 300;
-      const targetX = originX + Math.cos(angle + Math.random() - 0.5) * speed;
-      const targetY = originY + Math.sin(angle + Math.random() - 0.5) * speed - 180;
-
-      Animated.parallel([
+    const frame = requestAnimationFrame(() => {
+      animations.current = nextParticles.map((p) => Animated.parallel([
         Animated.timing(p.x, {
-          toValue: targetX,
-          duration: 900 + Math.random() * 400,
+          toValue: p.targetX,
+          duration: p.duration,
           useNativeDriver: false,
         }),
         Animated.sequence([
           Animated.timing(p.y, {
-            toValue: targetY,
+            toValue: p.targetY,
             duration: 500 + Math.random() * 200,
             useNativeDriver: false,
           }),
           Animated.timing(p.y, {
-            toValue: originY + 600,
+            toValue: p.fallY,
             duration: 600 + Math.random() * 300,
             useNativeDriver: false,
           }),
         ]),
         Animated.timing(p.rotate, {
-          toValue: (Math.random() - 0.5) * 1440,
+          toValue: p.spin,
           duration: 1100 + Math.random() * 400,
           useNativeDriver: false,
         }),
@@ -95,15 +99,27 @@ export function Confetti({ trigger, originX = width / 2, originY = height / 2 }:
             useNativeDriver: false,
           }),
         ]),
-      ]).start();
+      ]));
+      animations.current.forEach((animation) => animation.start());
     });
-  }, [trigger]);
 
-  if (!particles.current.length) return null;
+    const clearTimer = setTimeout(() => {
+      setParticles([]);
+      animations.current = [];
+    }, 1800);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(clearTimer);
+      animations.current.forEach((animation) => animation.stop());
+    };
+  }, [resolvedOriginX, resolvedOriginY, trigger]);
+
+  if (!particles.length) return null;
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      {particles.current.map((p, i) => {
+      {particles.map((p, i) => {
         const rotate = p.rotate.interpolate({
           inputRange: [-1440, 1440],
           outputRange: ['-1440deg', '1440deg'],

@@ -1,0 +1,11 @@
+{
+  "id": "isparta",
+  "answer": "ısparta",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin gül başkentidir; her yaz tarlalar pembeye bürünür." },
+    { "type": "text", "content": "Dünyanın en kaliteli gül yağı bu şehirde üretilir; parfüm sanayii için ihraç edilir." },
+    { "type": "text", "content": "Göller Bölgesi'nde yer alır; çevresinde pek çok güzel göl bulunur." },
+    { "type": "text", "content": "Eğirdir Gölü bu ile bağlıdır; temiz suyu ve balıklarıyla ünlüdür." },
+    { "type": "text", "content": "Akdeniz'in kuzeyinde dağlarla çevrili olan bu şehre yazları çok sayıda ziyaretçi gelir." }
+  ]
+}

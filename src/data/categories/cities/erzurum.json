@@ -1,0 +1,11 @@
+{
+  "id": "erzurum",
+  "answer": "erzurum",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en soğuk şehirlerinden biridir; kışın çok kar yağar." },
+    { "type": "text", "content": "Palandöken Dağı bu şehrin yanı başındadır; kayak pistleriyle ünlüdür." },
+    { "type": "text", "content": "Cağ kebabı bu şehrin meşhur yemeğidir." },
+    { "type": "text", "content": "Doğu Anadolu'nun en büyük şehridir." },
+    { "type": "text", "content": "Yakutiye Medresesi bu şehrin simgesidir ve Moğol mimarisini yansıtır." }
+  ]
+}

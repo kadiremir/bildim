@@ -1,0 +1,11 @@
+{
+  "id": "canakkale",
+  "answer": "çanakkale",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türk tarihinin en önemli destanlarından birinin yaşandığı yerde kurulmuştur." },
+    { "type": "text", "content": "1915'te buradaki savaşta Türk askerleri Çanakkale Boğazı'nı geçilmez kılmıştır." },
+    { "type": "text", "content": "Efsanevi Truva atının sergilendiği Truva antik kenti bu şehre bağlıdır." },
+    { "type": "text", "content": "Avrupa'yı Anadolu'ya bağlayan dar bir boğazın kıyısındadır." },
+    { "type": "text", "content": "1915 Şehitleri Anıtı'nı ziyaret etmek için her yıl binlerce insan bu şehre gelir." }
+  ]
+}

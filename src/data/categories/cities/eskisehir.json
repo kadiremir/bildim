@@ -1,0 +1,11 @@
+{
+  "id": "eskisehir",
+  "answer": "eskişehir",
+  "hints": [
+    { "type": "text", "content": "Bu şehirde tramvay ve kanallar vardır; 'Türkiye'nin Venedik'i' olarak anılır." },
+    { "type": "text", "content": "Porsuk Çayı bu şehrin içinden geçer ve kanallar boyunca renkli kayıklar yüzer." },
+    { "type": "text", "content": "Üniversite şehri olarak bilinir; çok sayıda genç nüfusa ev sahipliği yapar." },
+    { "type": "text", "content": "Lületaşı, yalnızca bu şehir yakınlarında çıkarılan nadir bir taştır; tütün piposu yapımında kullanılır." },
+    { "type": "text", "content": "İç Anadolu'nun batısında yer alır ve uçak motoru fabrikasıyla savunma sanayiine katkıda bulunur." }
+  ]
+}

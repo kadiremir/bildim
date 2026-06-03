@@ -1,0 +1,11 @@
+{
+  "id": "trabzon",
+  "answer": "trabzon",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Karadeniz'in kıyısındadır; çok yağmur yağar ve her yer yeşildir." },
+    { "type": "text", "content": "Yakınında dağın içine oyulmuş harika bir manastır vardır; adı Sümela'dır." },
+    { "type": "text", "content": "Fındık üretiminde Türkiye'nin en önemli şehirlerinden biridir." },
+    { "type": "text", "content": "Futbol takımı mor-lacivert renklerle tanınır ve çok sevilir." },
+    { "type": "text", "content": "Orta Karadeniz kıyısında yer alır ve tarihi Rum mirasından kalma eserlere sahiptir." }
+  ]
+}

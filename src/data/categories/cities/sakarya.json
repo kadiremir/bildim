@@ -1,0 +1,11 @@
+{
+  "id": "sakarya",
+  "answer": "sakarya",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin adını taşıyan büyük bir nehir vardır; Sakarya Nehri Türkiye'nin en uzun nehirlerinden biridir." },
+    { "type": "text", "content": "Kurtuluş Savaşı'nın en kritik muharebelerinden biri bu şehirde ya da yakınında gerçekleşmiştir." },
+    { "type": "text", "content": "İstanbul'a yakın olması nedeniyle hızla büyüyen bir sanayi ve lojistik merkezi haline gelmiştir." },
+    { "type": "text", "content": "İl merkezi Adapazarı adıyla da bilinir." },
+    { "type": "text", "content": "Marmara Bölgesi'nde, Kocaeli'ne komşu olan bu şehir önemli bir otomobil fabrikasına ev sahipliği yapar." }
+  ]
+}

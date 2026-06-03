@@ -1,0 +1,11 @@
+{
+  "id": "bursa",
+  "answer": "bursa",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yanı başında Uludağ adlı büyük bir dağ vardır; kışın kayak yapılır." },
+    { "type": "text", "content": "Osmanlı Devleti'nin ilk başkentiydi." },
+    { "type": "text", "content": "İskender kebabı bu şehirde icat edilmiştir." },
+    { "type": "text", "content": "Yeşil Türbe bu şehirde bulunur; çok güzel çinilerle süslenmiştir." },
+    { "type": "text", "content": "İpek ticaretinin merkezi olan bu şehirde tarihi kapalı çarşılar hâlâ ziyaretçi kabul eder." }
+  ]
+}

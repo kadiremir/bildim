@@ -1,0 +1,11 @@
+{
+  "id": "batman",
+  "answer": "batman",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin adı dünyanın en ünlü süper kahramanıyla aynıdır; bu yüzden çok meşhurdur." },
+    { "type": "text", "content": "Güneydoğu Anadolu'da petrol rafinerisi olan az sayıda Türk şehrinden biridir." },
+    { "type": "text", "content": "Dicle Nehri ve kolları bu ilin coğrafyasını şekillendirir." },
+    { "type": "text", "content": "Hasankeyf antik yerleşim yeri bu ile bağlıdır; kayalara oyulmuş evleri ve köprüsüyle ünlüydü." },
+    { "type": "text", "content": "Mardin ve Siirt illerine komşu olan bu şehir yakın tarihte kurulmuş bir il merkezidir." }
+  ]
+}

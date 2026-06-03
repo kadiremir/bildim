@@ -1,0 +1,11 @@
+{
+  "id": "kirsehir",
+  "answer": "kırşehir",
+  "hints": [
+    { "type": "text", "content": "Bu şehir halk ozanı Aşık Veysel ve Neşet Ertaş'ın memleketidir." },
+    { "type": "text", "content": "Kızılırmak Nehri bu ilin yakınından geçer." },
+    { "type": "text", "content": "Mucur ilçesi bu şehre bağlıdır ve bölgede hayvancılık yaygındır." },
+    { "type": "text", "content": "Anadolu'nun tam merkezine yakın olan bu şehir İç Anadolu'da yer alır." },
+    { "type": "text", "content": "Ahilik geleneğinin bu şehirde çok güçlü olduğu bilinir; Ahi Evran bu şehirde yaşamış ve defnedilmiştir." }
+  ]
+}

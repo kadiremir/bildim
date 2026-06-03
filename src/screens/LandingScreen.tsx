@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
+  ImageBackground,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
@@ -15,6 +16,19 @@ import { ParticleField } from '../components/ParticleField';
 import { ShimmerCard } from '../components/ShimmerCard';
 import { hapticMedium, hapticLight } from '../utils/haptics';
 import { playSound } from '../utils/sounds';
+import { countries, cities, animals } from '../data/categories';
+
+const DATA_COUNTS: Record<string, number> = {
+  countries: countries.length,
+  cities: cities.length,
+  animals: animals.length,
+};
+
+function itemStats(id: string, available: boolean): string {
+  if (!available) return 'Yakında';
+  const count = DATA_COUNTS[id] ?? 0;
+  return `${count} içerik`;
+}
 
 const CARD_GAP = 12;
 
@@ -41,7 +55,6 @@ function createLayout(width: number, height: number): LandingLayout {
 }
 
 const W = 390;
-const H = 844;
 const IS_DESKTOP = false;
 const isSmall = false;
 const SIDE_PAD = 20;
@@ -88,21 +101,22 @@ const CATS: Category[] = [
     available: true,
   },
   {
+    id: 'cities',
+    emoji: '🏙️',
+    label: 'Şehirler TR',
+    sub: 'Çocuklar için — Türkiye\'den şehirler',
+    colors: ['#1a1200', '#2d1f00', '#78350f'],
+    glow: '#f59e0b',
+    tag: 'OYNA',
+    available: true,
+  },
+  {
     id: 'animals',
     emoji: '🦁',
     label: 'Hayvanlar',
     sub: 'Tuhaf ve büyüleyici canlılar',
     colors: ['#1c1917', '#292524', '#44403c'],
     glow: '#d97706',
-    available: false,
-  },
-  {
-    id: 'cities',
-    emoji: '🏙️',
-    label: 'Şehirler',
-    sub: 'Kentsel efsaneler & silüetler',
-    colors: ['#0c0a09', '#1c1917', '#292524'],
-    glow: '#f97316',
     available: false,
   },
   {
@@ -126,17 +140,21 @@ const HOW_TO = [
 function useTypewriter(text: string, speed = 55, delay = 800) {
   const [out, setOut] = useState('');
   useEffect(() => {
+    setOut('');
+    let iv: ReturnType<typeof setInterval> | undefined;
     const t = setTimeout(() => {
       let i = 0;
-      const iv = setInterval(() => {
+      iv = setInterval(() => {
         i++;
         setOut(text.slice(0, i));
-        if (i >= text.length) clearInterval(iv);
+        if (i >= text.length && iv) clearInterval(iv);
       }, speed);
-      return () => clearInterval(iv);
     }, delay);
-    return () => clearTimeout(t);
-  }, []);
+    return () => {
+      clearTimeout(t);
+      if (iv) clearInterval(iv);
+    };
+  }, [delay, speed, text]);
   return out;
 }
 
@@ -146,7 +164,7 @@ function GlowRing({ color }: { color: string }) {
   const opacity = useRef(new Animated.Value(0.5)).current;
 
   useEffect(() => {
-    Animated.loop(
+    const ringAnimation = Animated.loop(
       Animated.parallel([
         Animated.sequence([
           Animated.timing(scale,   { toValue: 1.14, duration: 1500, useNativeDriver: true }),
@@ -157,8 +175,10 @@ function GlowRing({ color }: { color: string }) {
           Animated.timing(opacity, { toValue: 0.45, duration: 1500, useNativeDriver: true }),
         ]),
       ])
-    ).start();
-  }, []);
+    );
+    ringAnimation.start();
+    return () => ringAnimation.stop();
+  }, [opacity, scale]);
 
   return (
     <Animated.View
@@ -176,6 +196,7 @@ function GlowRing({ color }: { color: string }) {
   );
 }
 
+
 // ─── Category card ───────────────────────────────────────────────────────────
 function CategoryCard({ cat, onSelect, index, layout }: {
   cat: Category; onSelect: (id: string) => void; index: number; layout: LandingLayout;
@@ -184,12 +205,17 @@ function CategoryCard({ cat, onSelect, index, layout }: {
   const press      = useRef(new Animated.Value(1)).current;
   const glowAnim   = useRef(new Animated.Value(0)).current;
 
+  const bgImage =
+    cat.id === 'countries' ? require('../../assets/categories/countries_bg.png') :
+    cat.id === 'cities'    ? require('../../assets/categories/cities_tr_bg.png') :
+    undefined;
+
   useEffect(() => {
     Animated.spring(enter, {
       toValue: 1, delay: 500 + index * 100,
       tension: 55, friction: 10, useNativeDriver: true,
     }).start();
-  }, []);
+  }, [enter, index]);
 
   const onPressIn  = () => {
     if (!cat.available) return;
@@ -212,63 +238,91 @@ function CategoryCard({ cat, onSelect, index, layout }: {
 
   const ty = enter.interpolate({ inputRange: [0, 1], outputRange: [40, 0] });
 
+  const CARD_HEIGHT = layout.isDesktop ? 238 : layout.columns === 1 ? 190 : 190;
+
+  const cardStyle = [
+    s.cardGrad,
+    {
+      padding: layout.isDesktop ? 28 : r(layout, 16, 18, 28),
+      height: CARD_HEIGHT,
+      gap: layout.isDesktop ? 8 : 6,
+    },
+  ];
+
+  // GlowRing lives outside cardContent so it always positions relative to the full card
+  const glowRing = cat.available ? <GlowRing color={cat.glow} /> : null;
+
+  const cardContent = (
+    <>
+      <Animated.View pointerEvents="none" style={[
+        StyleSheet.absoluteFill,
+        { borderRadius: 22, backgroundColor: cat.glow,
+          opacity: Animated.multiply(glowAnim, new Animated.Value(0.14)) },
+      ]} />
+      <View style={s.cardTagRow}>
+        {cat.tag
+          ? <View style={[s.liveTag, { backgroundColor: cat.glow + '30', borderColor: cat.glow + '60' }]}>
+              <Text style={[s.liveTagText, { color: cat.glow, fontSize: layout.isDesktop ? 10 : 9 }]}>{cat.tag}</Text>
+            </View>
+          : <View style={[s.liveTag, s.soonTag]}>
+              <Text style={s.soonTagText}>YAKINDA</Text>
+            </View>
+        }
+      </View>
+      <Text style={[s.cardEmoji, { fontSize: layout.isDesktop ? 44 : layout.columns === 1 ? 32 : 30 }, !cat.available && s.dim]}>{cat.emoji}</Text>
+      <Text style={[s.cardLabel, { fontSize: layout.isDesktop ? 24 : layout.columns === 1 ? 18 : 17 }, !cat.available && s.dimText]} numberOfLines={1}>
+        {cat.label}
+      </Text>
+      <Text style={[s.cardSub, { fontSize: layout.isDesktop ? 14 : 12, lineHeight: layout.isDesktop ? 21 : 17 }, !cat.available && s.dimSub]} numberOfLines={2}>
+        {cat.sub}
+      </Text>
+      <LinearGradient
+        colors={cat.available ? [cat.glow + '40', cat.glow + '18'] : ['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+        start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+        style={s.playChip}
+      >
+        <Text style={[s.playChipText, { color: cat.available ? '#e2e8f0' : 'rgba(255,255,255,0.25)' }]}>
+          {itemStats(cat.id, cat.available)}
+        </Text>
+      </LinearGradient>
+    </>
+  );
+
   return (
     <Animated.View style={{ opacity: enter, transform: [{ translateY: ty }, { scale: press }], width: layout.cardW }}>
       <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut}
         activeOpacity={1} disabled={!cat.available}>
         <ShimmerCard style={{ borderRadius: 22 }} enabled={cat.available} shimmerColor="rgba(255,255,255,0.07)">
-          <LinearGradient
-            colors={cat.available ? cat.colors : ['#0f1117', '#171b24']}
-            start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-            style={[
-              s.cardGrad,
-              {
-                padding: layout.isDesktop ? 28 : r(layout, 16, 18, 28),
-                minHeight: layout.isDesktop ? 238 : layout.columns === 1 ? 156 : 180,
-                gap: layout.isDesktop ? 8 : 6,
-              },
-            ]}
-          >
-            {cat.available && <GlowRing color={cat.glow} />}
-
-            {/* press glow */}
-            <Animated.View pointerEvents="none" style={[
-              StyleSheet.absoluteFill,
-              { borderRadius: 22, backgroundColor: cat.glow,
-                opacity: Animated.multiply(glowAnim, new Animated.Value(0.14)) },
-            ]} />
-
-            {/* tag row */}
-            <View style={s.cardTagRow}>
-              {cat.tag
-                ? <View style={[s.liveTag, { backgroundColor: cat.glow + '30', borderColor: cat.glow + '60' }]}>
-                    <Text style={[s.liveTagText, { color: cat.glow, fontSize: layout.isDesktop ? 10 : 9 }]}>{cat.tag}</Text>
-                  </View>
-                : <View style={[s.liveTag, s.soonTag]}>
-                    <Text style={s.soonTagText}>YAKINDA</Text>
-                  </View>
-              }
-            </View>
-
-            <Text style={[s.cardEmoji, { fontSize: layout.isDesktop ? 44 : layout.columns === 1 ? 32 : 30 }, !cat.available && s.dim]}>{cat.emoji}</Text>
-            <Text style={[s.cardLabel, { fontSize: layout.isDesktop ? 24 : layout.columns === 1 ? 18 : 17 }, !cat.available && s.dimText]} numberOfLines={1}>
-              {cat.label}
-            </Text>
-            <Text style={[
-              s.cardSub,
-              { fontSize: layout.isDesktop ? 14 : 12, lineHeight: layout.isDesktop ? 21 : 17 },
-              !cat.available && s.dimSub,
-            ]} numberOfLines={2}>
-              {cat.sub}
-            </Text>
-
-            {cat.available
-              ? <LinearGradient colors={[cat.glow + '40', cat.glow + '18']}
-                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={s.playChip}>
-                  <Text style={[s.playChipText, { color: '#c7d2fe' }]}>Oyna →</Text>
-                </LinearGradient>
-              : null}
-          </LinearGradient>
+          {(cat.id === 'countries' || cat.id === 'cities') ? (
+            <ImageBackground
+              source={bgImage}
+              style={[cardStyle, { overflow: 'hidden', borderRadius: 22 }]}
+              imageStyle={{ borderRadius: 22, width: '100%', height: '100%' }}
+              resizeMode="stretch"
+            >
+              {glowRing}
+              <LinearGradient
+                colors={['rgba(4,6,20,0.55)', 'rgba(6,10,30,0.28)', 'rgba(3,6,20,0.62)']}
+                start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                style={StyleSheet.absoluteFill}
+                pointerEvents="none"
+              />
+              <View style={{ position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+                {cardContent}
+              </View>
+            </ImageBackground>
+          ) : (
+            <LinearGradient
+              colors={cat.available ? cat.colors : ['#0f1117', '#171b24']}
+              start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+              style={cardStyle}
+            >
+              {glowRing}
+              <View style={{ position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+                {cardContent}
+              </View>
+            </LinearGradient>
+          )}
         </ShimmerCard>
       </TouchableOpacity>
     </Animated.View>
@@ -285,7 +339,7 @@ function HowToStep({ icon, title, desc, index, last }: {
       toValue: 1, delay: 1100 + index * 130,
       tension: 55, friction: 11, useNativeDriver: true,
     }).start();
-  }, []);
+  }, [enter, index]);
   const ty = enter.interpolate({ inputRange: [0, 1], outputRange: [16, 0] });
 
   return (
@@ -315,11 +369,142 @@ function SectionDivider({ label }: { label: string }) {
   );
 }
 
+// ─── Stats bar ───────────────────────────────────────────────────────────────
+const STATS = [
+  { numeric: 4,    display: '4', label: 'farklı oyun', color: '#818cf8' },
+  { numeric: 5,    display: '5', label: 'ipucu',       color: '#f59e0b' },
+  { numeric: null, display: '∞', label: 'tekrar hakkı',color: '#34d399' },
+];
+
+function CountUp({ target, duration = 900, delay = 0, style }: {
+  target: number; duration?: number; delay?: number; style?: any;
+}) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    let start: number | null = null;
+    let raf: number;
+    const timeout = setTimeout(() => {
+      const step = (ts: number) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        setVal(Math.round(progress * target));
+        if (progress < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, delay);
+    return () => { clearTimeout(timeout); cancelAnimationFrame(raf); };
+  }, [target, duration, delay]);
+  return <Text style={style}>{val}</Text>;
+}
+
+function StatsBar({ layout }: { layout: LandingLayout }) {
+  const anims  = useRef(STATS.map(() => new Animated.Value(0))).current;
+  const glows  = useRef(STATS.map(() => new Animated.Value(0))).current;
+  const infSpin = useRef(new Animated.Value(0)).current;
+  const infPulse = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // staggered slide-up entry
+    Animated.parallel(
+      anims.map((a, i) =>
+        Animated.spring(a, { toValue: 1, delay: 500 + i * 150, tension: 55, friction: 9, useNativeDriver: true })
+      )
+    ).start();
+
+    // staggered glow flash after entry
+    glows.forEach((g, i) => {
+      setTimeout(() => {
+        Animated.sequence([
+          Animated.timing(g, { toValue: 1, duration: 300, useNativeDriver: true }),
+          Animated.timing(g, { toValue: 0, duration: 600, useNativeDriver: true }),
+        ]).start();
+      }, 900 + i * 150);
+    });
+
+    // ∞ rotate + pulse loop
+    const spin = Animated.loop(
+      Animated.timing(infSpin, { toValue: 1, duration: 4000, useNativeDriver: true })
+    );
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(infPulse, { toValue: 1.22, duration: 800, useNativeDriver: true }),
+        Animated.timing(infPulse, { toValue: 1,    duration: 800, useNativeDriver: true }),
+      ])
+    );
+    spin.start(); pulse.start();
+    return () => { spin.stop(); pulse.stop(); };
+  }, [anims, glows, infSpin, infPulse]);
+
+  const fontSize = layout.isDesktop ? 30 : 24;
+
+  return (
+    <View style={[sb.row, { marginBottom: layout.isDesktop ? 32 : r(layout, 16, 20, 32) }]}>
+      {STATS.map((stat, i) => {
+        const ty = anims[i].interpolate({ inputRange: [0, 1], outputRange: [24, 0] });
+        const glowOp = glows[i].interpolate({ inputRange: [0, 1], outputRange: [0, 0.6] });
+        const isInfinity = stat.numeric === null;
+
+        return (
+          <React.Fragment key={stat.label}>
+            <Animated.View style={[sb.cell, { opacity: anims[i], transform: [{ translateY: ty }] }]}>
+              {/* glow flash behind value */}
+              <Animated.View pointerEvents="none" style={[
+                sb.glow, { backgroundColor: stat.color, opacity: glowOp }
+              ]} />
+
+              {isInfinity ? (
+                <Animated.Text style={[
+                  sb.value, { fontSize, color: stat.color },
+                  { transform: [{ scale: infPulse }] },
+                ]}>
+                  {stat.display}
+                </Animated.Text>
+              ) : (
+                <CountUp
+                  target={stat.numeric!}
+                  duration={700}
+                  delay={500 + i * 150}
+                  style={[sb.value, { fontSize, color: stat.color }]}
+                />
+              )}
+
+              <Text style={[sb.label, { fontSize: layout.isDesktop ? 12 : 10 }]}>
+                {stat.label}
+              </Text>
+            </Animated.View>
+            {i < STATS.length - 1 && <View style={sb.divider} />}
+          </React.Fragment>
+        );
+      })}
+    </View>
+  );
+}
+
+const sb = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingVertical: 18,
+    paddingHorizontal: 8,
+    overflow: 'hidden',
+  },
+  cell:    { flex: 1, alignItems: 'center', gap: 6, position: 'relative' },
+  glow:    { position: 'absolute', width: 60, height: 60, borderRadius: 30, top: -10 },
+  value:   { fontWeight: '900', letterSpacing: -0.5 },
+  label:   { color: 'rgba(255,255,255,0.38)', fontWeight: '600', letterSpacing: 0.3 },
+  divider: { width: 1, height: 48, backgroundColor: 'rgba(255,255,255,0.07)' },
+});
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) {
   const { width, height } = useWindowDimensions();
   const layout = createLayout(width, height);
-  const tagline     = useTypewriter('BİLGİNİ SINAVDA', 55, 350);
+  const tagline     = useTypewriter('DÜŞÜN · BİL · KAZAN', 55, 350);
   const heroOpacity = useRef(new Animated.Value(0)).current;
   const heroY       = useRef(new Animated.Value(-16)).current;
   const statsOp     = useRef(new Animated.Value(0)).current;
@@ -331,10 +516,12 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
       Animated.spring(heroY, { toValue: 0, delay: 150, tension: 55, friction: 10, useNativeDriver: true }),
     ]).start();
     Animated.timing(statsOp, { toValue: 1, duration: 600, delay: 800, useNativeDriver: true }).start();
-    Animated.loop(
+    const spinAnimation = Animated.loop(
       Animated.timing(orbRotate, { toValue: 1, duration: 22000, useNativeDriver: true })
-    ).start();
-  }, []);
+    );
+    spinAnimation.start();
+    return () => spinAnimation.stop();
+  }, [heroOpacity, heroY, orbRotate, statsOp]);
 
   const orbSpin = orbRotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
 
@@ -343,7 +530,7 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
       <StatusBar barStyle="light-content" />
 
       {/* Background */}
-      <LinearGradient colors={['#06040F', '#09071A', '#0D0B22', '#06040F']}
+      <LinearGradient colors={['#0F0D2A', '#161345', '#1E195C', '#0F0D2A']}
         locations={[0, 0.3, 0.7, 1]} style={StyleSheet.absoluteFill} />
 
       {/* Rotating orb */}
@@ -394,7 +581,7 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
                 fontSize: layout.isDesktop ? 72 : r(layout, 38, 44, 72),
                 lineHeight: layout.isDesktop ? 76 : r(layout, 43, 50, 76),
               },
-            ]}>Bildim{'\n'}mi acaba?</Text>
+            ]}>Bildim bildim!</Text>
 
             <LinearGradient
               colors={['transparent', '#6366f1', '#a855f7', '#ec4899', 'transparent']}
@@ -409,34 +596,12 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
                 lineHeight: layout.isDesktop ? 30 : r(layout, 20, 22, 30),
               },
             ]}>
-              Nadir ipuçları. Gizli gerçekler.{'\n'}Dünyayı ne kadar iyi tanıyorsun?
+              İpuçlarını oku, cevabı bul.{'\n'}Kaç ipucunda bileceksin?
             </Text>
           </Animated.View>
 
-          {/* ── Stats ── */}
-          <Animated.View style={[
-            s.statsRow,
-            {
-              opacity: statsOp,
-              borderRadius: layout.isDesktop ? 20 : 16,
-              paddingVertical: layout.isDesktop ? 22 : r(layout, 12, 14, 22),
-              marginBottom: layout.isDesktop ? 40 : r(layout, 24, 30, 40),
-            },
-          ]}>
-            {[
-              { n: '10', label: 'Ülke'       },
-              { n: '5',  label: 'İpucu'      },
-              { n: '∞',  label: 'Sonsuz'     },
-            ].map((item, i) => (
-              <React.Fragment key={item.label}>
-                <View style={s.statItem}>
-                  <Text style={[s.statNum, { fontSize: layout.isDesktop ? 32 : r(layout, 20, 23, 32) }]}>{item.n}</Text>
-                  <Text style={[s.statLabel, { fontSize: layout.isDesktop ? 13 : r(layout, 10, 11, 13) }]}>{item.label}</Text>
-                </View>
-                {i < 2 && <View style={s.statDivider} />}
-              </React.Fragment>
-            ))}
-          </Animated.View>
+          {/* ── Stats bar ── */}
+          <StatsBar layout={layout} />
 
           {/* ── Category grid ── */}
           <SectionDivider label="KATEGORİ SEÇ" />
@@ -486,7 +651,7 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  root:  { flex: 1, backgroundColor: '#06040F', overflow: 'hidden' },
+  root:  { flex: 1, backgroundColor: '#0F0D2A', overflow: 'hidden' },
   safe:  { flex: 1 },
   // Remove horizontal padding from ScrollView — contentWrap handles centering
   scroll: { alignItems: 'center' },

@@ -1,0 +1,11 @@
+{
+  "id": "vanuatu",
+  "answer": "vanuatu",
+  "hints": [
+    { "type": "text", "content": "Bu ada ülkesi, kişi başına düşen dil sayısında dünyada birinci sıradadır — 300.000'den az nüfusla 100'den fazla dil konuşulur." },
+    { "type": "text", "content": "Tanna adası, dünyanın en kolay erişilebilir aktif volkanlarından birine ev sahipliği yapar." },
+    { "type": "text", "content": "Bungee jumping'in atası olan asma atlama, yüzyıllar önce burada bir ritüel olarak icat edilmiştir." },
+    { "type": "text", "content": "Güney Pasifik Okyanusu'nda 80 adadan oluşan bir takımadadır." },
+    { "type": "text", "content": "Başkenti Port Vila olan bu ülke, Avustralya'nın kuzeydoğusunda yer alır." }
+  ]
+}

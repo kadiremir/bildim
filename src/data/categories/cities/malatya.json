@@ -1,0 +1,11 @@
+{
+  "id": "malatya",
+  "answer": "malatya",
+  "hints": [
+    { "type": "text", "content": "Bu şehir dünyanın en çok kayısı üreten yerlerinden biridir; kayısı bahçeleri çok geniş yer kaplar." },
+    { "type": "text", "content": "Türkiye'nin eski cumhurbaşkanlarından İsmet İnönü bu şehirde doğmuştur." },
+    { "type": "text", "content": "Doğu Anadolu'da Fırat havzasına yakın bir konumda yer alır." },
+    { "type": "text", "content": "Kurutulan kayısı ihracatında dünya sıralamasında ilk sıralarda yer alır." },
+    { "type": "text", "content": "Arslantepe höyüğü bu ile bağlıdır ve UNESCO Dünya Mirası listesinde yer alır." }
+  ]
+}

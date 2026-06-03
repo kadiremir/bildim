@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Text, StyleSheet } from 'react-native';
+import { Animated } from 'react-native';
 
 interface Props {
   value: number;
@@ -36,7 +36,7 @@ export function AnimatedCounter({ value, style }: Props) {
     }, 30);
 
     return () => clearInterval(interval);
-  }, [value]);
+  }, [value, scaleAnim]);
 
   return (
     <Animated.Text style={[style, { transform: [{ scale: scaleAnim }] }]}>

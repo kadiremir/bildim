@@ -1,0 +1,11 @@
+{
+  "id": "usak",
+  "answer": "uşak",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Ege Bölgesi'nde yer alır ve el dokuması halılarıyla ünlüdür." },
+    { "type": "text", "content": "Türkiye'nin önemli deri ve tekstil merkezlerinden biridir." },
+    { "type": "text", "content": "Frigya bölgesine ait antik kalıntılar bu şehrin çevresinde bulunmaktadır." },
+    { "type": "text", "content": "Kurtuluş Savaşı sırasında bu şehir bölgede önemli bir rol üstlenmiştir." },
+    { "type": "text", "content": "İzmir ve Afyonkarahisar arasında konumlanan bu şehir küçük ama sanayi açısından gelişmiştir." }
+  ]
+}

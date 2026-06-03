@@ -74,7 +74,7 @@ function makeStar(): StarDef {
   };
 }
 
-const STAR_COUNT = 60;
+const STAR_COUNT = 12 + Math.floor(Math.random() * 9); // 12–20, random each session
 const STARS: StarDef[] = Array.from({ length: STAR_COUNT }, makeStar);
 
 // ─── 4-pointed sparkle shape ─────────────────────────────────────────────────
@@ -130,8 +130,11 @@ function Star({ def }: { def: StarDef }) {
   const driftY   = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    let stopped = false;
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+
     // ── 1. Slow breathe (always running) ──────────────────────────────────
-    Animated.loop(
+    const breathAnimation = Animated.loop(
       Animated.sequence([
         Animated.delay(def.breathDelay),
         Animated.timing(opacity, {
@@ -145,11 +148,15 @@ function Star({ def }: { def: StarDef }) {
           useNativeDriver: true,
         }),
       ])
-    ).start();
+    );
+    breathAnimation.start();
 
     // ── 2. Occasional bright shine flash ──────────────────────────────────
     const scheduleShine = (delay: number) => {
       const t = setTimeout(() => {
+        timers.delete(t);
+        if (stopped) return;
+
         // Quick rise to peak, then fall back
         Animated.sequence([
           Animated.timing(opacity, {
@@ -187,13 +194,14 @@ function Star({ def }: { def: StarDef }) {
         // Schedule next shine
         scheduleShine(def.shinePeriod + (Math.random() - 0.5) * def.shinePeriod * 0.4);
       }, delay);
+      timers.add(t);
       return t;
     };
 
-    const shineTimer = scheduleShine(def.shineDelay);
+    scheduleShine(def.shineDelay);
 
     // ── 3. Gentle drift ───────────────────────────────────────────────────
-    Animated.loop(
+    const driftYAnimation = Animated.loop(
       Animated.sequence([
         Animated.timing(driftY, {
           toValue: def.driftAmpY,
@@ -206,9 +214,10 @@ function Star({ def }: { def: StarDef }) {
           useNativeDriver: true,
         }),
       ])
-    ).start();
+    );
+    driftYAnimation.start();
 
-    Animated.loop(
+    const driftXAnimation = Animated.loop(
       Animated.sequence([
         Animated.timing(driftX, {
           toValue: def.driftAmpX,
@@ -221,10 +230,17 @@ function Star({ def }: { def: StarDef }) {
           useNativeDriver: true,
         }),
       ])
-    ).start();
+    );
+    driftXAnimation.start();
 
-    return () => clearTimeout(shineTimer);
-  }, []);
+    return () => {
+      stopped = true;
+      timers.forEach((timer) => clearTimeout(timer));
+      breathAnimation.stop();
+      driftXAnimation.stop();
+      driftYAnimation.stop();
+    };
+  }, [def, driftX, driftY, opacity, scale]);
 
   const span = def.size * 10;
 

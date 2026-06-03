@@ -1,0 +1,11 @@
+{
+  "id": "balikesir",
+  "answer": "balıkesir",
+  "hints": [
+    { "type": "text", "content": "Bu şehir hem Ege'ye hem de Marmara Denizi'ne kıyısı olan ender illerden biridir." },
+    { "type": "text", "content": "Ayvalık ilçesi zeytinyağıyla, Edremit körfezi ise güzellikleriyle ünlüdür." },
+    { "type": "text", "content": "Kuş Cenneti olarak bilinen Manyas Gölü bu ile bağlıdır." },
+    { "type": "text", "content": "Çanakkale ile İzmir arasında köprü görevi gören konumuyla önemli bir geçiş ilidir." },
+    { "type": "text", "content": "Marmara Bölgesi'nin en büyük yüzölçümlü illerinden biridir." }
+  ]
+}

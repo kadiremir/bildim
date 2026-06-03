@@ -1,0 +1,11 @@
+{
+  "id": "osmaniye",
+  "answer": "osmaniye",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Akdeniz kıyısına yakın, Torosların eteğinde yer alır." },
+    { "type": "text", "content": "Karatepe-Aslantaş Milli Parkı bu ile bağlıdır; Hitit ve Geç Hitit dönemine ait heykeller ve kabartmalar barındırır." },
+    { "type": "text", "content": "Adana'ya komşu olan bu şehir Çukurova bölgesinin doğusundadır." },
+    { "type": "text", "content": "Ceyhan Nehri bu ilin topraklarından geçer." },
+    { "type": "text", "content": "Türkiye'nin görece yeni illerinden biri olan bu şehir 1996 yılında il statüsü kazanmıştır." }
+  ]
+}

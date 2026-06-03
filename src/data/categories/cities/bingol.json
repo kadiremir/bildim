@@ -1,0 +1,11 @@
+{
+  "id": "bingol",
+  "answer": "bingöl",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin adı 'bin göl' anlamına gelir; çevresinde pek çok küçük göl ve dere bulunur." },
+    { "type": "text", "content": "Doğu Anadolu'da dağlık bir arazide kurulmuştur; doğası çok güzeldir." },
+    { "type": "text", "content": "Petek balı bu şehirden gelir ve Türkiye'nin en kaliteli balları arasında gösterilir." },
+    { "type": "text", "content": "Fırat Nehri'nin kollarından beslenen bu şehirde yaylaları yaz aylarında çok canlıdır." },
+    { "type": "text", "content": "Elazığ ve Muş arasında konumlanan bu şehir sakin ve doğayla iç içe bir yaşam sunar." }
+  ]
+}

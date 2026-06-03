@@ -1,0 +1,11 @@
+{
+  "id": "mugla",
+  "answer": "muğla",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en uzun sahil şeridine sahip illerinden biridir." },
+    { "type": "text", "content": "Bodrum, Marmaris ve Fethiye gibi dünyaca ünlü tatil beldelerini barındırır." },
+    { "type": "text", "content": "Ege ve Akdeniz'in buluştuğu bu şehir masmavi suları ve koylarıyla bilinir." },
+    { "type": "text", "content": "Antik dönemde Halikarnas olarak bilinen Bodrum bu ile bağlıdır; orada dünyanın yedi harikasından biri olan mozole vardı." },
+    { "type": "text", "content": "Her yıl milyonlarca yabancı turist bu şehrin tatil beldelerini ziyaret eder." }
+  ]
+}

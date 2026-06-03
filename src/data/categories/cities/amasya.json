@@ -1,0 +1,11 @@
+{
+  "id": "amasya",
+  "answer": "amasya",
+  "hints": [
+    { "type": "text", "content": "Bu şehirde kayalara oyulmuş Pontus krallığına ait kaya mezarları vardır." },
+    { "type": "text", "content": "Yeşilırmak Nehri bu şehrin ortasından geçer ve iki kıyısında tarihi ahşap evler sıralanır." },
+    { "type": "text", "content": "Ünlü coğrafyacı Strabon bu şehirde doğmuştur." },
+    { "type": "text", "content": "Osmanlı şehzadelerinin yetiştiği şehir olarak bilinir ve 'şehzadeler şehri' lakabını taşır." },
+    { "type": "text", "content": "Karadeniz Bölgesi'nin güneyinde yer alır ve elmasıyla ünlüdür." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "gaziantep",
+  "answer": "gaziantep",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en lezzetli yemekleriyle tanınır; özellikle tatlısıyla." },
+    { "type": "text", "content": "Dünyaca ünlü baklavası vardır; yufka yufka hamur ve bol fıstıkla yapılır." },
+    { "type": "text", "content": "Zeugma Mozaik Müzesi bu şehirdedir; içinde 2000 yıllık mozaikler saklanır." },
+    { "type": "text", "content": "Güneydoğu Anadolu'da yer alır; Suriye sınırına yakındır." },
+    { "type": "text", "content": "UNESCO tarafından gastronomi şehri ilan edilmiş tek Türk şehridir." }
+  ]
+}

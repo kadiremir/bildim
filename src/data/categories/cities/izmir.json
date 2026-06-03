@@ -1,0 +1,11 @@
+{
+  "id": "izmir",
+  "answer": "i̇zmir",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Ege Denizi'nin kıyısında yer alır." },
+    { "type": "text", "content": "Deniz kenarında uzanan uzun bir yürüyüş yolu vardır; adı Kordon'dur." },
+    { "type": "text", "content": "Türkiye'nin üçüncü büyük şehridir." },
+    { "type": "text", "content": "Saat Kulesi bu şehrin en tanınmış simgesidir ve tam ortasında durur." },
+    { "type": "text", "content": "Eski adı Smyrna olan bu şehir binlerce yıllık tarihe sahiptir ve güzel havası ile balıkçılığıyla tanınır." }
+  ]
+}

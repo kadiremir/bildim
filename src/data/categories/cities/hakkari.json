@@ -1,0 +1,11 @@
+{
+  "id": "hakkari",
+  "answer": "hakkari",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en yüksek rakımlı il merkezlerinden biridir; dağlarla çevrilidir." },
+    { "type": "text", "content": "Irak ve İran sınırlarına çok yakın olan bu şehir Türkiye'nin güneydoğu köşesindedir." },
+    { "type": "text", "content": "Ulaşımı oldukça zor olan bu il, sarp dağ yollarıyla bilinir." },
+    { "type": "text", "content": "Cilo ve Sat dağları bu ilin sınırları içinde yükselir; yaz karları bile erimez." },
+    { "type": "text", "content": "Türkiye'nin en az nüfuslu ve en az bilinen illerinden biridir." }
+  ]
+}

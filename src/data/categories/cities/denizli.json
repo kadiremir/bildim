@@ -1,0 +1,11 @@
+{
+  "id": "denizli",
+  "answer": "denizli",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yakınında beyaz pamuk şelalelerine benzeyen doğal kireçtaşı teraslar bulunur." },
+    { "type": "text", "content": "Pamukkale, bu şehrin en ünlü turistik yeridir ve UNESCO Dünya Mirası listesindedir." },
+    { "type": "text", "content": "Antik Hierapolis kenti de Pamukkale'nin hemen yanındadır." },
+    { "type": "text", "content": "Türkiye'nin tekstil ve havlu üretiminde önemli bir merkezidir." },
+    { "type": "text", "content": "Ege Bölgesi'nde yer alır ve 'horozun şehri' olarak da bilinir." }
+  ]
+}

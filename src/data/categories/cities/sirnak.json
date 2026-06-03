@@ -1,0 +1,11 @@
+{
+  "id": "sirnak",
+  "answer": "şırnak",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin güneydoğu köşesinde yer alır; hem Irak hem de Suriye sınırına yakındır." },
+    { "type": "text", "content": "Dicle Nehri bu ilin topraklarından doğar." },
+    { "type": "text", "content": "Cizre ilçesi bu ile bağlıdır; tarihi köprüsü ve Hz. Nuh'la ilgili efsaneleriyle bilinir." },
+    { "type": "text", "content": "Uludere ve Beytüşşebap gibi ilçeleri sarp dağlarla çevrilidir." },
+    { "type": "text", "content": "Türkiye'nin en az bilinen ve ulaşılması en zor illerinden biridir." }
+  ]
+}

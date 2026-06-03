@@ -1,0 +1,11 @@
+{
+  "id": "kayseri",
+  "answer": "kayseri",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Erciyes Dağı'nın eteklerinde kurulmuştur; dağın zirvesi kışın karla kaplanır." },
+    { "type": "text", "content": "Pastırması ve sucuğu Türkiye'nin dört bir köşesinde tanınır." },
+    { "type": "text", "content": "İç Anadolu'nun önemli sanayi ve ticaret merkezlerinden biridir." },
+    { "type": "text", "content": "Erciyes Dağı hem yaz hem kış turizmi için ziyaret edilir." },
+    { "type": "text", "content": "Türkiye'nin en eski Üniversitelerinden biri olan Kayseri Üniversitesi bu şehirdedir ve şehir 'tüccarlar şehri' lakabını taşır." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "andorra",
+  "answer": "andorra",
+  "hints": [
+    { "type": "text", "content": "Bu küçük ülke iki ayrı lider tarafından ortaklaşa yönetilir: Fransa Cumhurbaşkanı ve İspanya'daki Urgell Piskoposu." },
+    { "type": "text", "content": "Havalimanı ve tren istasyonu yoktur; ulaşım tümüyle dağ yollarına bağımlıdır." },
+    { "type": "text", "content": "Küçük boyutuna rağmen dünyanın en yüksek yaşam beklentisi ortalamalarından birine sahiptir." },
+    { "type": "text", "content": "Fransa ile İspanya arasındaki Pireneler'e sıkışmış bir ülkedir." },
+    { "type": "text", "content": "Vergisiz alışveriş yapılabilen bu ülke, her yıl nüfusunun çok üzerinde turist çeker." }
+  ]
+}

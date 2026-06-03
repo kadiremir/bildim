@@ -1,0 +1,11 @@
+{
+  "id": "kars",
+  "answer": "kars",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin doğusunda yer alır ve kışları çok sert geçer; kar aylarca erimez." },
+    { "type": "text", "content": "Kaz kışın bu şehirde çok yaygındır; kazdan yapılan yemekler meşhurdur." },
+    { "type": "text", "content": "Yakınındaki Ani harabeleri, 1.000 yıl önce Ermeni Krallığı'nın başkentiydi." },
+    { "type": "text", "content": "Rusya ile Osmanlı arasında birçok kez el değiştirmiş olan bu şehirde Rus mimari izleri görülür." },
+    { "type": "text", "content": "Ermenistan sınırına dayanan bu şehir Türkiye'nin en doğu illerinden biridir." }
+  ]
+}

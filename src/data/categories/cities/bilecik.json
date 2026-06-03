@@ -1,0 +1,11 @@
+{
+  "id": "bilecik",
+  "answer": "bilecik",
+  "hints": [
+    { "type": "text", "content": "Bu küçük şehir Osmanlı Devleti'nin kurulduğu toprakların tam kalbinde yer alır." },
+    { "type": "text", "content": "Söğüt ilçesi, Osmanlı'nın kurucusu Osman Bey'in doğduğu yerdir." },
+    { "type": "text", "content": "Her yıl Söğüt'te düzenlenen büyük şölen Osmanlı'nın kuruluşunu kutlar." },
+    { "type": "text", "content": "Sakarya Nehri bu ilin topraklarından geçer." },
+    { "type": "text", "content": "Marmara ile İç Anadolu arasında küçük ama tarihi açıdan çok önemli bir şehirdir." }
+  ]
+}

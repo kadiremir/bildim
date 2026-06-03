@@ -1,0 +1,11 @@
+{
+  "id": "izlanda",
+  "answer": "izlanda",
+  "hints": [
+    { "type": "text", "content": "Bu ülkede sivrisinek yoktur — iklim onların yaşamasına izin vermez." },
+    { "type": "text", "content": "Neredeyse tümüyle yenilenebilir jeotermal ve hidroelektrik enerjiyle çalışır." },
+    { "type": "text", "content": "Düzenli ordusu yoktur ve modern tarihte hiçbir savaşa girmemiştir." },
+    { "type": "text", "content": "Adına rağmen oldukça yeşildir; komşusu Grönland ise çoğunlukla buzla kaplıdır." },
+    { "type": "text", "content": "Kuzey Kutbu yakınında yer alır ve kuzey ışıkları (aurora) burada rahatlıkla görülebilir." }
+  ]
+}

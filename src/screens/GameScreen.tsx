@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,10 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { countries } from '../data/countries';
+import { cities } from '../data/cities';
+import { animals } from '../data/categories';
 import { TinderCard } from '../components/TinderCard';
 import { GuessInput } from '../components/GuessInput';
 import { Confetti } from '../components/Confetti';
@@ -21,6 +24,74 @@ import { hapticSuccess, hapticError, hapticMedium, hapticLight } from '../utils/
 import { playSound } from '../utils/sounds';
 
 type Phase = 'swiping' | 'guessing' | 'correct' | 'revealed';
+
+const CATEGORY_CONTENT = {
+  countries: {
+    title: 'Ülkeler',
+    items: countries,
+  },
+  cities: {
+    title: 'Şehirler TR',
+    items: cities,
+  },
+  animals: {
+    title: 'Hayvanlar',
+    items: animals,
+  },
+} as const;
+
+const ANSWER_ALIASES: Record<string, string[]> = {
+  // cities
+  istanbul: ['i̇stanbul', 'constantinople', 'istanbul'],
+  ankara: [],
+  izmir: ['i̇zmir', 'smyrna'],
+  antalya: [],
+  bursa: [],
+  trabzon: ['trebizond'],
+  konya: [],
+  kapadokya: ['cappadocia', 'nevşehir', 'nevsehir', 'kappadokya'],
+  erzurum: [],
+  gaziantep: ['antep'],
+  // countries
+  bhutan: ['butan'],
+  izlanda: ['iceland'],
+  'moğolistan': ['mogolistan', 'mongolistan'],
+  slovenya: ['slovenia'],
+  surinam: ['suriname'],
+  vanuatu: [],
+  'lihtenştayn': ['lihtenstayn', 'liechtenstein'],
+  cibuti: ['djibouti'],
+  nauru: [],
+  andorra: [],
+};
+
+const TURKISH_CHAR_MAP: Record<string, string> = {
+  ç: 'c',
+  ğ: 'g',
+  ı: 'i',
+  ö: 'o',
+  ş: 's',
+  ü: 'u',
+  â: 'a',
+  î: 'i',
+  û: 'u',
+};
+
+function normalizeAnswer(value: string): string {
+  return value
+    .trim()
+    .toLocaleLowerCase('tr-TR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[çğıöşüâîû]/g, (char) => TURKISH_CHAR_MAP[char] ?? char)
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function isCorrectGuess(guess: string, answer: string): boolean {
+  const normalizedGuess = normalizeAnswer(guess);
+  const accepted = [answer, ...(ANSWER_ALIASES[answer] ?? [])].map(normalizeAnswer);
+  return accepted.includes(normalizedGuess);
+}
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -32,16 +103,20 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 interface Props {
+  category: string;
   onBack: () => void;
 }
 
-export function GameScreen({ onBack }: Props) {
+export function GameScreen({ category, onBack }: Props) {
   const { width, height } = useWindowDimensions();
   const cardAreaHeight = height * 0.50;
   const cardWidth = Math.max(1, width - 40);
   const cardHeight = Math.max(240, cardAreaHeight);
+  const gameContent = useMemo(() => {
+    return CATEGORY_CONTENT[category as keyof typeof CATEGORY_CONTENT] ?? CATEGORY_CONTENT.countries;
+  }, [category]);
 
-  const [deck] = useState(() => shuffle(countries));
+  const [deck, setDeck] = useState(() => shuffle(gameContent.items));
   const [countryIndex, setCountryIndex] = useState(0);
   const [hintIndex, setHintIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>('swiping');
@@ -54,9 +129,8 @@ export function GameScreen({ onBack }: Props) {
   const resultSlide   = useRef(new Animated.Value(height)).current;
   const resultOpacity = useRef(new Animated.Value(0)).current;
   const streakScale   = useRef(new Animated.Value(1)).current;
-  const wrongShake    = useRef(new Animated.Value(0)).current;
-  // Fades the whole card stack in — resets to 0 on every new country to kill residue flash
   const stackFade     = useRef(new Animated.Value(0)).current;
+  const bildimGlow    = useRef(new Animated.Value(0)).current;
 
   const country = deck[countryIndex % deck.length];
   const totalHints = country.hints.length;
@@ -73,10 +147,32 @@ export function GameScreen({ onBack }: Props) {
   const capitalised = country.answer.charAt(0).toLocaleUpperCase('tr-TR') + country.answer.slice(1);
 
   useEffect(() => {
+    setDeck(shuffle(gameContent.items));
+    setCountryIndex(0);
+    setHintIndex(0);
+    setPhase('swiping');
+    setWrongCount(0);
+    setShakeSignal(0);
+    setScore(0);
+    setStreak(0);
+  }, [gameContent]);
+
+  useEffect(() => {
     if (phase !== 'correct' && phase !== 'revealed') {
       resultSlide.setValue(height);
     }
   }, [height, phase, resultSlide]);
+
+  useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(bildimGlow, { toValue: 1, duration: 1100, useNativeDriver: true }),
+        Animated.timing(bildimGlow, { toValue: 0, duration: 1100, useNativeDriver: true }),
+      ])
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [bildimGlow]);
 
   const showResult = useCallback((success: boolean) => {
     Animated.parallel([
@@ -126,7 +222,7 @@ export function GameScreen({ onBack }: Props) {
 
   const handleGuess = useCallback(
     (guess: string) => {
-      if (guess.toLocaleLowerCase('tr-TR').trim() === country.answer) {
+      if (isCorrectGuess(guess, country.answer)) {
         hapticSuccess();
         playSound('correct');
         const pts = pointsEarned;
@@ -157,12 +253,20 @@ export function GameScreen({ onBack }: Props) {
   const handleNext = useCallback(() => {
     hideResult(() => {
       resultSlide.setValue(height);
-      setCountryIndex((i) => i + 1);
+      setCountryIndex((i) => {
+        const next = i + 1;
+        if (next >= deck.length) {
+          // Reshuffle so the player doesn't see the same order again
+          setDeck(shuffle(gameContent.items));
+          return 0;
+        }
+        return next;
+      });
       setHintIndex(0);
       setPhase('swiping');
       setWrongCount(0);
     });
-  }, [height, hideResult, resultSlide]);
+  }, [height, hideResult, resultSlide, deck.length, gameContent.items]);
 
   const handleGiveUp = useCallback(() => {
     hapticMedium();
@@ -176,7 +280,7 @@ export function GameScreen({ onBack }: Props) {
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
       <LinearGradient
-        colors={['#080C18', '#0D1530', '#080C18']}
+        colors={['#0F1230', '#161A4A', '#0F1230']}
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.orb1} />
@@ -194,7 +298,7 @@ export function GameScreen({ onBack }: Props) {
           </TouchableOpacity>
 
           <View style={styles.headerCenter}>
-            <Text style={styles.headerTitle}>Ülkeler</Text>
+            <Text style={styles.headerTitle}>{gameContent.title}</Text>
             {streak >= 2 && (
               <Animated.View style={[styles.streakBadge, { transform: [{ scale: streakScale }] }]}>
                 <Text style={styles.streakText}>🔥 {streak}</Text>
@@ -242,50 +346,73 @@ export function GameScreen({ onBack }: Props) {
         >
           {phase === 'swiping' && (
             <View style={styles.swipeActions}>
-              <View style={styles.actionButtonsRow}>
-                {/* Skip / Next clue */}
+              <View style={styles.actionRow}>
+                {/* Sonraki ipucu */}
                 <TouchableOpacity
-                  style={[styles.actionBtn, styles.actionBtnBlue, isLastHint && styles.actionBtnDisabled]}
+                  style={[styles.skipBtn, isLastHint && styles.skipBtnDisabled]}
                   onPress={isLastHint ? undefined : () => { hapticLight(); handleSwipeLeft(); }}
-                  activeOpacity={isLastHint ? 1 : 0.8}
+                  activeOpacity={isLastHint ? 1 : 0.75}
                 >
                   <LinearGradient
-                    colors={isLastHint ? ['#1a2030', '#1a2030'] : ['#1d4ed8', '#3b82f6']}
-                    style={styles.actionBtnGradient}
+                    colors={isLastHint ? ['#1a1e2a', '#141820'] : ['#f97316', '#ea580c']}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                    style={styles.skipBtnInner}
                   >
-                    <Text style={[styles.actionBtnIcon, isLastHint && styles.actionBtnIconDim]}>←</Text>
+                    <LinearGradient
+                      colors={['rgba(255,255,255,0.15)', 'rgba(255,255,255,0)']}
+                      start={{ x: 0.5, y: 0 }} end={{ x: 0.5, y: 1 }}
+                      style={StyleSheet.absoluteFill}
+                      pointerEvents="none"
+                    />
+                    <Ionicons
+                      name={isLastHint ? 'close-circle-outline' : 'flash-outline'}
+                      size={22}
+                      color={isLastHint ? 'rgba(255,255,255,0.2)' : '#fff'}
+                    />
+                    <Text style={[styles.skipLabel, isLastHint && styles.skipLabelDim]}>
+                      {isLastHint ? 'Başka yok' : 'Sonraki'}
+                    </Text>
                   </LinearGradient>
                 </TouchableOpacity>
 
-                <View style={styles.actionBtnCenter}>
-                  <Text style={styles.actionCenterLabel}>kaydır veya dokun</Text>
+                {/* Bildim! — premium green with gloss overlay + pulsing glow */}
+                <View style={styles.bildimWrap}>
+                  <Animated.View
+                    pointerEvents="none"
+                    style={[
+                      styles.bildimGlowRing,
+                      {
+                        opacity: bildimGlow.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }),
+                        transform: [{ scale: bildimGlow.interpolate({ inputRange: [0, 1], outputRange: [1, 1.06] }) }],
+                      },
+                    ]}
+                  />
+                  <TouchableOpacity
+                    style={styles.bildimBtn}
+                    onPress={() => { hapticMedium(); handleSwipeRight(); }}
+                    activeOpacity={0.8}
+                  >
+                    <LinearGradient
+                      colors={['#059669', '#10b981', '#34d399']}
+                      start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                      style={styles.bildimBtnInner}
+                    >
+                      {/* Top gloss sheen */}
+                      <LinearGradient
+                        colors={['rgba(255,255,255,0.18)', 'rgba(255,255,255,0)']}
+                        start={{ x: 0.5, y: 0 }} end={{ x: 0.5, y: 1 }}
+                        style={StyleSheet.absoluteFill}
+                        pointerEvents="none"
+                      />
+                      <Ionicons name="create-outline" size={22} color="#fff" />
+                      <Text style={styles.bildimLabel}>Bildim!</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
                 </View>
-
-                {/* I know */}
-                <TouchableOpacity
-                  style={[styles.actionBtn, styles.actionBtnGreen]}
-                  onPress={() => { hapticMedium(); handleSwipeRight(); }}
-                  activeOpacity={0.8}
-                >
-                  <LinearGradient
-                    colors={['#065f46', '#10b981']}
-                    style={styles.actionBtnGradient}
-                  >
-                    <Text style={styles.actionBtnIcon}>✓</Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.actionLabelsRow}>
-                <Text style={[styles.actionLabel, isLastHint && styles.actionLabelDim]}>
-                  {isLastHint ? 'Başka ipucu yok' : 'Sonraki ipucu'}
-                </Text>
-                <View style={{ flex: 1 }} />
-                <Text style={styles.actionLabel}>Bildim!</Text>
               </View>
 
               {isLastHint && (
-                <TouchableOpacity onPress={handleGiveUp} activeOpacity={0.6} style={styles.giveUpBtn}>
+                <TouchableOpacity onPress={handleGiveUp} activeOpacity={0.7} style={styles.giveUpBtn}>
                   <Text style={styles.giveUpText}>Vazgeçtim — cevabı göster</Text>
                 </TouchableOpacity>
               )}
@@ -295,7 +422,9 @@ export function GameScreen({ onBack }: Props) {
           {phase === 'guessing' && (
             <View style={styles.guessActions}>
               <View style={styles.guessHeaderRow}>
-                <Text style={styles.guessTitle}>Hangi ülke?</Text>
+                <Text style={styles.guessTitle}>
+                  {category === 'cities' ? 'Hangi şehir?' : 'Hangi ülke?'}
+                </Text>
                 {wrongCount > 0 && (
                   <View style={styles.wrongCounter}>
                     <Text style={styles.wrongCounterText}>{wrongCount} ✗</Text>
@@ -303,7 +432,11 @@ export function GameScreen({ onBack }: Props) {
                 )}
               </View>
 
-              <GuessInput onSubmit={handleGuess} shakeSignal={shakeSignal} />
+              <GuessInput
+                onSubmit={handleGuess}
+                shakeSignal={shakeSignal}
+                placeholder={category === 'cities' ? 'Şehrin adını yaz…' : 'Ülkenin adını yaz…'}
+              />
 
               {wrongCount > 0 && (
                 <View style={styles.wrongBanner}>
@@ -357,7 +490,7 @@ export function GameScreen({ onBack }: Props) {
                     end={{ x: 1, y: 0 }}
                     style={styles.pointsBadge}
                   >
-                    <Text style={styles.pointsBadgeText}>+{pointsEarned} points</Text>
+                    <Text style={styles.pointsBadgeText}>+{pointsEarned} puan</Text>
                   </LinearGradient>
 
                   {streak >= 2 && (
@@ -374,7 +507,9 @@ export function GameScreen({ onBack }: Props) {
                     end={{ x: 1, y: 0 }}
                     style={styles.nextBtn}
                   >
-                    <Text style={styles.nextBtnText}>Sonraki Ülke →</Text>
+                    <Text style={styles.nextBtnText}>
+                      {category === 'cities' ? 'Sonraki Şehir →' : 'Sonraki Ülke →'}
+                    </Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </>
@@ -407,7 +542,7 @@ export function GameScreen({ onBack }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#080C18', overflow: 'hidden' },
+  root: { flex: 1, backgroundColor: '#0F1230', overflow: 'hidden' },
   safe: { flex: 1 },
   orb1: {
     position: 'absolute', width: 340, height: 340, borderRadius: 170,
@@ -468,39 +603,59 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
 
-  // Action area
-  actionArea: { flex: 1, justifyContent: 'flex-start', paddingTop: 20 },
+  // Action area — anchored to bottom
+  actionArea: { flex: 1, justifyContent: 'flex-end', paddingBottom: 40 },
 
   // Swipe actions
-  swipeActions: { gap: 12 },
-  actionButtonsRow: {
+  swipeActions: { gap: 16 },
+  actionRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 52,
+    paddingHorizontal: 20,
+    gap: 10,
   },
-  actionBtn: {
-    width: 68, height: 68, borderRadius: 34,
+
+  // Sonraki
+  skipBtn: {
+    flex: 1, height: 64, borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: '#f97316',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4, shadowRadius: 10, elevation: 8,
+    shadowOpacity: 0.45, shadowRadius: 12, elevation: 8,
   },
-  actionBtnBlue: { shadowColor: '#3b82f6' },
-  actionBtnGreen: { shadowColor: '#10b981' },
-  actionBtnDisabled: { shadowColor: 'transparent' },
-  actionBtnGradient: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  actionBtnIcon: { color: '#fff', fontSize: 26, fontWeight: '700' },
-  actionBtnIconDim: { color: 'rgba(255,255,255,0.2)' },
-  actionBtnCenter: { alignItems: 'center' },
-  actionCenterLabel: { color: 'rgba(255,255,255,0.18)', fontSize: 11, fontWeight: '500' },
-  actionLabelsRow: {
-    flexDirection: 'row', paddingHorizontal: 44,
+  skipBtnDisabled: { shadowColor: 'transparent', opacity: 0.38 },
+  skipBtnInner: {
+    flex: 1, flexDirection: 'row',
+    alignItems: 'center', justifyContent: 'center', gap: 8,
   },
-  actionLabel: { color: 'rgba(255,255,255,0.35)', fontSize: 12, fontWeight: '600' },
-  actionLabelDim: { color: 'rgba(255,255,255,0.15)' },
+  skipLabel: { color: '#fff', fontSize: 19, fontFamily: 'Kalam_700Bold' },
+  skipLabelDim: { color: 'rgba(255,255,255,0.22)' },
+
+  // Bildim! — primary rectangle with pulsing glow
+  bildimWrap: { flex: 1 },
+  bildimGlowRing: {
+    position: 'absolute',
+    top: -6, left: -6, right: -6, bottom: -6,
+    borderRadius: 24,
+    backgroundColor: 'rgba(16,185,129,0.35)',
+  },
+  bildimBtn: {
+    flex: 1, height: 64, borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#10b981',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.5, shadowRadius: 12, elevation: 10,
+  },
+  bildimBtnInner: {
+    flex: 1, flexDirection: 'row',
+    alignItems: 'center', justifyContent: 'center', gap: 8,
+  },
+  bildimIcon: { color: '#fff', fontSize: 18 },
+  bildimLabel: { color: '#fff', fontSize: 19, fontFamily: 'Kalam_700Bold' },
+
+  actionLabel: { color: 'rgba(255,255,255,0.45)', fontSize: 12, fontWeight: '600' },
+  actionLabelDim: { color: 'rgba(255,255,255,0.18)' },
   giveUpBtn: { alignItems: 'center', paddingVertical: 4 },
-  giveUpText: { color: 'rgba(255,255,255,0.2)', fontSize: 13 },
+  giveUpText: { color: 'rgba(255,255,255,0.45)', fontSize: 13 },
 
   // Guess actions
   guessActions: { gap: 14 },

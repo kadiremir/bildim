@@ -1,0 +1,11 @@
+{
+  "id": "erzincan",
+  "answer": "erzincan",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Doğu Anadolu'da Fırat Nehri'nin yukarı havzasında yer alır." },
+    { "type": "text", "content": "Tulum peyniri bu şehrin en ünlü lezzetidir; deriden yapılan kaplarda olgunlaştırılır." },
+    { "type": "text", "content": "Tarihi boyunca birçok deprem geçirmiş olan bu şehir yeniden inşa edilmiştir." },
+    { "type": "text", "content": "Çevresindeki yaylalar ve dağlar güzel doğa yürüyüşleri için idealdir." },
+    { "type": "text", "content": "Erzurum'a yakın olan bu şehir kış sporları için de tercih edilir." }
+  ]
+}

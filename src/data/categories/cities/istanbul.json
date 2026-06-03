@@ -1,0 +1,11 @@
+{
+  "id": "istanbul",
+  "answer": "istanbul",
+  "hints": [
+    { "type": "text", "content": "Bu şehir dünyanın tek iki kıtalı şehridir — bir tarafı Avrupa'da, diğer tarafı Asya'dadır." },
+    { "type": "text", "content": "İki kıtayı birbirine bağlayan büyük bir boğaz ve üzerinde köprüler vardır." },
+    { "type": "text", "content": "İçinde namaz kılınan çok büyük ve tarihi bir cami vardır; adı Ayasofya'dır." },
+    { "type": "text", "content": "Türkiye'nin en kalabalık şehridir; 15 milyondan fazla insan burada yaşar." },
+    { "type": "text", "content": "Osmanlı İmparatorluğu'nun başkentiydi ve eski adı Konstantinopolis'tir." }
+  ]
+}

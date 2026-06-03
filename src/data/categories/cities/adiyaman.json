@@ -1,0 +1,11 @@
+{
+  "id": "adiyaman",
+  "answer": "adıyaman",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yakınında dünyanın sekizinci harikası sayılan dev taş heykeller vardır." },
+    { "type": "text", "content": "Nemrut Dağı bu şehre bağlıdır; tepesinde dev kral başları sıralanır." },
+    { "type": "text", "content": "Gün doğumunu izlemek için insanlar sabah karanlığında dağa tırmanır." },
+    { "type": "text", "content": "Güneydoğu Anadolu'da yer alır ve Fırat Nehri bu ilin sınırından geçer." },
+    { "type": "text", "content": "Kommagene Krallığı'nın mirası bu şehirde yaşamaktadır." }
+  ]
+}

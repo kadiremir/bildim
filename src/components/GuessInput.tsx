@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   TextInput,
@@ -14,16 +14,16 @@ import { playSound } from '../utils/sounds';
 interface Props {
   onSubmit: (guess: string) => void;
   shakeSignal: number;
+  placeholder?: string;
 }
 
-export function GuessInput({ onSubmit, shakeSignal }: Props) {
+export function GuessInput({ onSubmit, shakeSignal, placeholder = 'Ülkenin adını yaz…' }: Props) {
   const [text, setText] = useState('');
   const [focused, setFocused] = useState(false);
   const shakeAnim = useRef(new Animated.Value(0)).current;
-  const prevShake = useRef(shakeSignal);
 
-  if (shakeSignal !== prevShake.current) {
-    prevShake.current = shakeSignal;
+  useEffect(() => {
+    if (shakeSignal === 0) return;
     Animated.sequence([
       Animated.timing(shakeAnim, { toValue: 14, duration: 50, useNativeDriver: true }),
       Animated.timing(shakeAnim, { toValue: -14, duration: 50, useNativeDriver: true }),
@@ -32,7 +32,7 @@ export function GuessInput({ onSubmit, shakeSignal }: Props) {
       Animated.timing(shakeAnim, { toValue: 6, duration: 50, useNativeDriver: true }),
       Animated.timing(shakeAnim, { toValue: 0, duration: 50, useNativeDriver: true }),
     ]).start();
-  }
+  }, [shakeSignal, shakeAnim]);
 
   const handleSubmit = () => {
     if (!text.trim()) return;
@@ -49,12 +49,12 @@ export function GuessInput({ onSubmit, shakeSignal }: Props) {
           style={styles.input}
           value={text}
           onChangeText={setText}
-          placeholder="Ülkenin adını yaz…"
+          placeholder={placeholder}
           placeholderTextColor="rgba(255,255,255,0.22)"
           onSubmitEditing={handleSubmit}
           returnKeyType="done"
           autoCorrect={false}
-          autoCapitalize="words"
+          autoCapitalize="none"
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />

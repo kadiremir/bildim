@@ -1,0 +1,11 @@
+{
+  "id": "kahramanmaras",
+  "answer": "kahramanmaraş",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin dondurması Türkiye'nin her yerinde satılır; çok uzar ve yapışkan olmasıyla meşhurdur." },
+    { "type": "text", "content": "Maraş dondurması keçi sütü ve salep bitkisinden yapılır; kaşıkla yenilmesi çok zordur." },
+    { "type": "text", "content": "Kurtuluş Savaşı'ndaki kahramanlıkları nedeniyle adına 'Kahraman' sıfatı eklenmiştir." },
+    { "type": "text", "content": "Akdeniz ile Güneydoğu Anadolu arasında geçiş noktasında yer alır." },
+    { "type": "text", "content": "Kırmızı biberi ve acı salçasıyla da ünlüdür; bölge mutfağı çok lezzetlidir." }
+  ]
+}

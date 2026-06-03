@@ -1,0 +1,11 @@
+{
+  "id": "manisa",
+  "answer": "manisa",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Ege Bölgesi'nde yer alır ve mesir macunuyla ünlüdür." },
+    { "type": "text", "content": "Her yıl Mesir Festivali'nde halk cami minaresinden macun atar; yüzyıllardır süren bir gelenektir." },
+    { "type": "text", "content": "İzmir'e çok yakın olan bu şehir tarih boyunca önemli bir merkez olmuştur." },
+    { "type": "text", "content": "Üzüm ve incir bağları bu ilin tarımına önemli katkı sağlar." },
+    { "type": "text", "content": "Osmanlı şehzadelerinin sancak beyi olarak yönettiği şehirlerden biri budur." }
+  ]
+}

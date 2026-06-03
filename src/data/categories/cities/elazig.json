@@ -1,0 +1,11 @@
+{
+  "id": "elazig",
+  "answer": "elazığ",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yanı başında Türkiye'nin en büyük baraj göllerinden biri olan Keban Barajı bulunur." },
+    { "type": "text", "content": "Keban Barajı yapılırken bazı tarihi köyler sular altında kalmıştır." },
+    { "type": "text", "content": "Harput kalesi bu şehre bağlıdır; yüzyıllar öncesinden kalma tarihi bir yapıdır." },
+    { "type": "text", "content": "Doğu Anadolu'da Fırat Nehri havzasında yer alır." },
+    { "type": "text", "content": "Üzümü ve kayısısıyla tanınan bu şehir aynı zamanda iyi bir bağcılık merkezidir." }
+  ]
+}

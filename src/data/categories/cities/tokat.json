@@ -1,0 +1,11 @@
+{
+  "id": "tokat",
+  "answer": "tokat",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Karadeniz Bölgesi'nde yer alır ve şırasıyla ünlüdür; taze üzüm suyundan yapılır." },
+    { "type": "text", "content": "Tarihi kalesi ve çarşısıyla Orta Karadeniz'in önemli şehirlerinden biridir." },
+    { "type": "text", "content": "Niksar ilçesi bu ile bağlıdır; burada Türkiye'nin en önemli ceviz bahçeleri yer alır." },
+    { "type": "text", "content": "Yeşilırmak Nehri bu şehirden geçer." },
+    { "type": "text", "content": "Osmanlı döneminde Anadolu'yu İpek Yolu'na bağlayan önemli bir ticaret merkeziydi." }
+  ]
+}

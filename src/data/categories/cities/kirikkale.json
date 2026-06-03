@@ -1,0 +1,11 @@
+{
+  "id": "kirikkale",
+  "answer": "kırıkkale",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en büyük silah ve mühimmat fabrikasına ev sahipliği yapar." },
+    { "type": "text", "content": "Ankara'ya çok yakın olan bu şehir neredeyse Ankara'nın uydu kenti gibi konumlanmıştır." },
+    { "type": "text", "content": "Kızılırmak Nehri bu ilin topraklarından geçer." },
+    { "type": "text", "content": "Cumhuriyet döneminde hızla gelişen savunma sanayii sayesinde önem kazanmıştır." },
+    { "type": "text", "content": "İç Anadolu'da Ankara'nın doğusunda yer alır ve görece genç bir il merkezidir." }
+  ]
+}

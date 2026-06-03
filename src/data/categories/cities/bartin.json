@@ -1,0 +1,11 @@
+{
+  "id": "bartin",
+  "answer": "bartın",
+  "hints": [
+    { "type": "text", "content": "Bu küçük şehir Batı Karadeniz kıyısında yer alır ve ahşap oymacılığıyla ünlüdür." },
+    { "type": "text", "content": "Bartın Nehri bu şehrin merkezinden geçer ve küçük tekneler nehirde yüzer." },
+    { "type": "text", "content": "Amasra ilçesi bu ile bağlıdır; antik surları ve balık restoranlarıyla sahil turizmi için popülerdir." },
+    { "type": "text", "content": "Küre Dağları Milli Parkı bu ilin sınırları içinde uzanır." },
+    { "type": "text", "content": "Zonguldak'a komşu olan bu şehir Batı Karadeniz'in sakin ve yeşil köşelerinden biridir." }
+  ]
+}

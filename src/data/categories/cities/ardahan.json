@@ -1,0 +1,11 @@
+{
+  "id": "ardahan",
+  "answer": "ardahan",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en soğuk şehirlerinden biridir; kışın sıcaklık eksi 30 dereceye düşebilir." },
+    { "type": "text", "content": "Kars'a komşu olan bu şehir Türkiye'nin kuzeydoğusundadır ve Gürcistan sınırına yakındır." },
+    { "type": "text", "content": "Çıldır Gölü bu ile bağlıdır; kışın yüzeyi donar ve üzerinde atlı kızak yarışları yapılır." },
+    { "type": "text", "content": "Posof ilçesi Gürcistan sınırında yer alır ve doğası bozulmamış bir güzelliğe sahiptir." },
+    { "type": "text", "content": "Türkiye'nin en az nüfuslu illerinden biridir ve geniş yaylalarıyla hayvancılığa çok elverişlidir." }
+  ]
+}

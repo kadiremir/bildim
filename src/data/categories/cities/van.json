@@ -1,0 +1,11 @@
+{
+  "id": "van",
+  "answer": "van",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin yanında Türkiye'nin en büyük gölü yer alır; adı şehirle aynıdır." },
+    { "type": "text", "content": "Van Gölü tuzlu ve sodalıdır; içinde yaşayan inci kefali başka hiçbir yerde bulunmaz." },
+    { "type": "text", "content": "Van kedisi beyaz tüylü ve farklı renklerde iki gözü olan ender bir kedi cinsidir." },
+    { "type": "text", "content": "Akdamar Adası'ndaki tarihi Ermeni kilisesi bu gölün ortasında yer alır." },
+    { "type": "text", "content": "Doğu Anadolu'da İran sınırına yakın olan bu şehir tarihte Urartu Krallığı'nın merkeziydi." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "edirne",
+  "answer": "edirne",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin Avrupa yakasında yer alan en batı ilidir." },
+    { "type": "text", "content": "Her yıl Kırkpınar Yağlı Güreş Festivali burada düzenlenir; dünyanın en eski spor müsabakalarından biridir." },
+    { "type": "text", "content": "Mimar Sinan'ın en büyük şaheseri kabul edilen Selimiye Camii bu şehirdedir." },
+    { "type": "text", "content": "Osmanlı Devleti'nin ikinci başkentiydi; İstanbul'dan önce burayı yönetim merkezi yaptılar." },
+    { "type": "text", "content": "Yunanistan ve Bulgaristan sınırına çok yakın olan bu şehir üç ülkenin buluşma noktasındadır." }
+  ]
+}

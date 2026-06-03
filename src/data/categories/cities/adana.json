@@ -1,0 +1,11 @@
+{
+  "id": "adana",
+  "answer": "adana",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en sıcak şehirlerinden biridir; yazları çok bunaltıcı olabilir." },
+    { "type": "text", "content": "Adana kebabı bu şehrin adını taşır; bol baharatlı uzun bir kıyma şiştir." },
+    { "type": "text", "content": "Seyhan Nehri bu şehrin ortasından akar ve eski taş köprü yüzyıllardır ayaktadır." },
+    { "type": "text", "content": "Türkiye'nin dördüncü büyük şehridir ve Çukurova ovasının merkezindedir." },
+    { "type": "text", "content": "Pamuk tarımı ve tekstil sanayi bu şehri Türkiye'nin önemli üretim merkezlerinden biri yapmıştır." }
+  ]
+}

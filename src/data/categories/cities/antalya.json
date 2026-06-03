@@ -1,0 +1,11 @@
+{
+  "id": "antalya",
+  "answer": "antalya",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Akdeniz kıyısında yer alır; yazın çok sıcak ve güneşlidir." },
+    { "type": "text", "content": "Her yaz dünyanın dört bir yanından milyonlarca turist tatil için bu şehre gelir." },
+    { "type": "text", "content": "Bembeyaz kumlu plajları ve turkuaz rengi denizi vardır." },
+    { "type": "text", "content": "Güneyinde dağlar, önünde deniz; Türkiye'nin tatil başkenti sayılır." },
+    { "type": "text", "content": "Kaleiçi adlı tarihi çarşısı çok eskidir ve Roma döneminden kalma surlar hâlâ ayaktadır." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "sinop",
+  "answer": "sinop",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Karadeniz'in kuzeyine uzanan bir yarımadanın ucundadır; Türkiye'nin en kuzey noktasına yakındır." },
+    { "type": "text", "content": "Eski Yunanistan'ın ünlü filozofu Diyojen bu şehirde doğmuştur." },
+    { "type": "text", "content": "Tarihi hapishane binası şimdi müzeye dönüştürülmüştür ve ziyaretçi kabul eder." },
+    { "type": "text", "content": "Kale surları ve limanıyla Karadeniz'in en güzel tarihi şehirlerinden biridir." },
+    { "type": "text", "content": "Balıkçılık ve turizm bu şehrin ekonomisinin önemli bir parçasıdır." }
+  ]
+}

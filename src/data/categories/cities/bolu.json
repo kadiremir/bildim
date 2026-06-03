@@ -1,0 +1,11 @@
+{
+  "id": "bolu",
+  "answer": "bolu",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en ünlü aşçılarını yetiştiren yer olarak bilinir; 'aşçılar şehri' denir." },
+    { "type": "text", "content": "Kartalkaya ve Köroğlu yaylalarında kışın kayak yapılır." },
+    { "type": "text", "content": "Abant Gölü bu şehre bağlıdır; ormanlık alanda sakin ve huzurlu bir göldür." },
+    { "type": "text", "content": "İstanbul ile Ankara arasındaki otoyolun üzerinde yer alır." },
+    { "type": "text", "content": "Yemyeşil ormanları ve temiz havasıyla Türkiye'nin akciğerleri arasında sayılır." }
+  ]
+}

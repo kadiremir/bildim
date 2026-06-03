@@ -1,0 +1,11 @@
+{
+  "id": "cankiri",
+  "answer": "çankırı",
+  "hints": [
+    { "type": "text", "content": "Bu şehir İç Anadolu'nun kuzeyinde yer alır ve tuz madenleriyle meşhurdur." },
+    { "type": "text", "content": "Tuz Mağarası bu şehrin en ilginç doğal alanıdır; içinde tuz kristalleri parlar." },
+    { "type": "text", "content": "Ankara'ya oldukça yakın olan bu şehir nispeten küçük ve sakin bir il merkezidir." },
+    { "type": "text", "content": "Kızılırmak Nehri'nin çevrelediği bu bölgede tahıl tarımı yaygındır." },
+    { "type": "text", "content": "Antik çağlarda Gangra adıyla bilinen bu şehrin tarihi çok eskilere dayanır." }
+  ]
+}

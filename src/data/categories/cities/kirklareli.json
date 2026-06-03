@@ -1,0 +1,11 @@
+{
+  "id": "kirklareli",
+  "answer": "kırklareli",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin Avrupa yakasında, Trakya Bölgesi'nde yer alır." },
+    { "type": "text", "content": "Bulgaristan sınırına yakın olan bu şehir, ormanlarıyla ve doğasıyla dikkat çeker." },
+    { "type": "text", "content": "İğneada Longozu, Avrupa'nın en güzel uzun ormanlarından biridir ve bu ile bağlıdır." },
+    { "type": "text", "content": "Üzüm bağları bu şehrin ekonomisinde önemli yer tutar; bölgede iyi şaraplar yapılır." },
+    { "type": "text", "content": "Edirne ve Tekirdağ'a komşu olan bu şehir Türkiye'nin en batı kesimindedir." }
+  ]
+}

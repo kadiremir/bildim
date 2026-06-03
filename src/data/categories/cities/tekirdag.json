@@ -1,0 +1,11 @@
+{
+  "id": "tekirdag",
+  "answer": "tekirdağ",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin Avrupa yakasında, Marmara Denizi kıyısında yer alır." },
+    { "type": "text", "content": "Köfte bu şehrin en ünlü yemeğidir; Tekirdağ köftesi tüm Türkiye'de tanınır." },
+    { "type": "text", "content": "Trakya Bölgesi'nde yer alır ve çevresinde geniş bağlar ve tarım alanları bulunur." },
+    { "type": "text", "content": "Sürgündeki Macar lideri II. Rákóczi Ferenc bu şehirde vefat etmiş ve anısına müze açılmıştır." },
+    { "type": "text", "content": "İstanbul'a yakın olması nedeniyle çok sayıda sanayi kuruluşu bu ilde faaliyet göstermektedir." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "kutahya",
+  "answer": "kütahya",
+  "hints": [
+    { "type": "text", "content": "Bu şehir renkli çini ve seramik sanatıyla Türkiye'de bir numara olarak kabul edilir." },
+    { "type": "text", "content": "Yüzyıllardır üretilen Kütahya çinileri pek çok camide ve sarayda kullanılmıştır." },
+    { "type": "text", "content": "Ege ile İç Anadolu arasında yer alır ve ormanlarla kaplı dağları vardır." },
+    { "type": "text", "content": "Macar millî kahramanı Kossuth Lajos bir süre bu şehirde sürgünde yaşamıştır." },
+    { "type": "text", "content": "Tavşanlı ve Gediz gibi ilçeleri linyit kömürü madenleriyle tanınır." }
+  ]
+}

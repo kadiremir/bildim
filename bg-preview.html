@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: system-ui, sans-serif; padding: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .card {
+    width: 220px; height: 320px; border-radius: 18px; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; flex-shrink: 0;
+  }
+  .label {
+    position: absolute; bottom: 16px; left: 0; right: 0; text-align: center;
+    color: rgba(255,255,255,0.55); font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  }
+  .tag {
+    position: absolute; top: 14px; left: 0; right: 0; text-align: center;
+    color: rgba(255,255,255,0.35); font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  }
+  .title {
+    color: #fff; font-size: 32px; font-weight: 900; letter-spacing: -1px; text-align: center;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.6);
+  }
+  .orb {
+    position: absolute; width: 200px; height: 200px; border-radius: 50%;
+    top: -80px; left: 10px;
+    background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+  }
+  .current { background: linear-gradient(160deg, #06040F 0%, #09071A 40%, #0D0B22 70%, #06040F 100%); }
+  .a       { background: linear-gradient(160deg, #0E0B2A 0%, #13104A 40%, #1A1560 70%, #0E0B2A 100%); }
+  .b       { background: linear-gradient(160deg, #080D24 0%, #0D1540 40%, #121C52 70%, #080D24 100%); }
+  .c       { background: linear-gradient(160deg, #110820 0%, #1A0D38 40%, #221248 70%, #110820 100%); }
+  .d       { background: linear-gradient(160deg, #0F1035 0%, #181C55 40%, #1E2368 70%, #0F1035 100%); }
+</style>
+</head>
+<body>
+  <div class="card current">
+    <div class="orb"></div>
+    <div class="tag">CURRENT</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="label">#06040F → #0D0B22</div>
+  </div>
+  <div class="card a">
+    <div class="orb"></div>
+    <div class="tag">OPTION A — Deep Indigo</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="label">#0E0B2A → #1A1560</div>
+  </div>
+  <div class="card b">
+    <div class="orb"></div>
+    <div class="tag">OPTION B — Midnight Navy</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="label">#080D24 → #121C52</div>
+  </div>
+  <div class="card c">
+    <div class="orb"></div>
+    <div class="tag">OPTION C — Dark Violet</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="label">#110820 → #221248</div>
+  </div>
+  <div class="card d">
+    <div class="orb"></div>
+    <div class="tag">OPTION D — Slate Blue</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="label">#0F1035 → #1E2368</div>
+  </div>
+</body>
+</html>

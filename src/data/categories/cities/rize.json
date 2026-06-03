@@ -1,0 +1,11 @@
+{
+  "id": "rize",
+  "answer": "rize",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin çay başkentidir; neredeyse tüm Türk çayı burada yetişir." },
+    { "type": "text", "content": "Yılın büyük bölümünde yağmur yağar; bu yüzden her yer yemyeşildir." },
+    { "type": "text", "content": "Dağlarda yayla kültürü çok canlıdır; yazları insanlar yaylalara çıkar." },
+    { "type": "text", "content": "Karadeniz kıyısında Artvin'e komşu olan bu şehir Türkiye'nin en doğu Karadeniz ilidir." },
+    { "type": "text", "content": "Fırtına Vadisi bu ile bağlıdır; akan dereleri ve sarp kayalıklarıyla doğa tutkunlarını çeker." }
+  ]
+}

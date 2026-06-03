@@ -1,0 +1,11 @@
+{
+  "id": "ankara",
+  "answer": "ankara",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin başkentidir." },
+    { "type": "text", "content": "Cumhurbaşkanlığı sarayı bu şehirdedir." },
+    { "type": "text", "content": "Türkiye'yi kuran Atatürk'ün mozolesi burada bulunur; adı Anıtkabir'dir." },
+    { "type": "text", "content": "İç Anadolu'da yer alır ve denize kıyısı yoktur." },
+    { "type": "text", "content": "Türkiye'nin ikinci büyük şehridir ve tüm büyükelçilikler burada bulunur." }
+  ]
+}

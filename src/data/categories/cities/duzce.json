@@ -1,0 +1,11 @@
+{
+  "id": "duzce",
+  "answer": "düzce",
+  "hints": [
+    { "type": "text", "content": "Bu şehir 1999 yılında büyük bir deprem geçirmiş ve ardından yeniden inşa edilmiştir." },
+    { "type": "text", "content": "Batı Karadeniz'de yer alır ve ormanlarla çevrili dağlık bir coğrafyaya sahiptir." },
+    { "type": "text", "content": "Akçakoca ilçesi bu ile bağlıdır; Karadeniz kıyısında güzel plajları olan küçük bir tatil beldesidir." },
+    { "type": "text", "content": "Istanbul ve Ankara arasındaki D-100 karayolu ve otoyol bu şehirden geçer." },
+    { "type": "text", "content": "Bolu'ya komşu olan bu şehir Türkiye'nin genç illerinden biridir; 1999'da ayrı il olmuştur." }
+  ]
+}

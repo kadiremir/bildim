@@ -1,0 +1,11 @@
+{
+  "id": "aksaray",
+  "answer": "aksaray",
+  "hints": [
+    { "type": "text", "content": "Bu şehir İç Anadolu'da Tuz Gölü'ne yakın bir konumda yer alır." },
+    { "type": "text", "content": "Ihlara Vadisi bu ile bağlıdır; kayalara oyulmuş kiliseler ve görkemli kanyon manzarası sunar." },
+    { "type": "text", "content": "İpek Yolu üzerinde önemli bir durak olan bu şehirde tarihi kervansaraylar bulunur." },
+    { "type": "text", "content": "Kapadokya bölgesinin batı kapısı olarak kabul edilir." },
+    { "type": "text", "content": "Selçuklu döneminden kalma Sultanhanı Kervansarayı bu ilin sınırları içindedir." }
+  ]
+}

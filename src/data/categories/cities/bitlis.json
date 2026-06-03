@@ -1,0 +1,11 @@
+{
+  "id": "bitlis",
+  "answer": "bitlis",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin doğusunda, Doğu Anadolu'da yer alır; kışları çok soğuk ve karlıdır." },
+    { "type": "text", "content": "Türkiye'nin en büyük gölü olan Van Gölü'ne komşudur." },
+    { "type": "text", "content": "Nemrut Kalderası bu ile bağlıdır; içinde göl bulunan dünyanın en büyük volkanik kraterlerinden biridir." },
+    { "type": "text", "content": "Ahlat ilçesinde yüzlerce yıllık Selçuklu dönemi mezar taşları bulunur; tarihi açıdan çok önemlidir." },
+    { "type": "text", "content": "Tatvan bu ilin en büyük ilçesidir ve Van Gölü feribot seferlerinin başlangıç noktasıdır." }
+  ]
+}

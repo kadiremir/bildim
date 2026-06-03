@@ -1,0 +1,11 @@
+{
+  "id": "kocaeli",
+  "answer": "kocaeli",
+  "hints": [
+    { "type": "text", "content": "Bu şehir İzmit Körfezi'nin kıyısında yer alır ve Türkiye'nin önemli sanayi merkezlerinden biridir." },
+    { "type": "text", "content": "İstanbul'a çok yakın olan bu şehirde büyük otomobil ve kimya fabrikaları bulunur." },
+    { "type": "text", "content": "1999 depreminde çok ağır hasar gören bu şehir yeniden inşa edilmiştir." },
+    { "type": "text", "content": "Sapanca Gölü bu ile bağlıdır; İstanbul'a içme suyu sağlar." },
+    { "type": "text", "content": "İl merkezi İzmit olarak da bilinir; Marmara Denizi kıyısındadır." }
+  ]
+}

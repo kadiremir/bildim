@@ -1,0 +1,11 @@
+{
+  "id": "artvin",
+  "answer": "artvin",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en yeşil köşelerinden birinde, Karadeniz'in doğusunda yer alır." },
+    { "type": "text", "content": "Derin vadiler, sarp dağlar ve görkemli ormanlarla çevrilidir." },
+    { "type": "text", "content": "Borçka Karagöl gölü bu ile bağlıdır; yüksek dağ ormanlarının içinde saklı bir cennet gibidir." },
+    { "type": "text", "content": "Her yıl düzenlenen boğa güreşi festivali bu şehirde büyük ilgi görür." },
+    { "type": "text", "content": "Gürcistan sınırına en yakın Türk şehirlerinden biridir." }
+  ]
+}

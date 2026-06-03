@@ -1,0 +1,11 @@
+{
+  "id": "aydin",
+  "answer": "aydın",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Ege Bölgesi'nde yer alır ve çok güzel inciri ile zeytini vardır." },
+    { "type": "text", "content": "Dünyaca ünlü antik kenti Efes bu ile bağlıdır; milyonlarca turist ziyaret eder." },
+    { "type": "text", "content": "Büyük Menderes Nehri bu ilin ortasından akar." },
+    { "type": "text", "content": "Sıcak havası ve bereketli ovaları sayesinde Türkiye'nin önemli tarım merkezlerinden biridir." },
+    { "type": "text", "content": "Artemis Tapınağı'nın kalıntıları bu ilin sınırları içinde yer alır." }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "karaman",
+  "answer": "karaman",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkçenin resmi dil olarak ilk kez kullanıldığı yer kabul edilir." },
+    { "type": "text", "content": "Karamanoğulları Beyliği burada kurulmuş ve Türkçeyi devlet dili ilan eden fermanı buradan çıkmıştır." },
+    { "type": "text", "content": "İç Anadolu'nun güneyinde Toros Dağları'nın eteklerinde yer alır." },
+    { "type": "text", "content": "Elması çok meşhurdur; soğuk iklimi sayesinde çok lezzetli elmalar yetişir." },
+    { "type": "text", "content": "Binbirkilise olarak bilinen antik Hristiyan manastır kalıntıları bu ile bağlıdır." }
+  ]
+}

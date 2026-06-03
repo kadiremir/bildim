@@ -1,0 +1,11 @@
+{
+  "id": "burdur",
+  "answer": "burdur",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin merkezinde Türkiye'nin en büyük göllerinden biri yer alır; adı şehirle aynıdır." },
+    { "type": "text", "content": "Burdur Gölü çok tuzlu ve sodalı bir göldür; flamingo gibi nadir kuşları barındırır." },
+    { "type": "text", "content": "Yakınındaki Sagalassos antik kenti, dünyanın en iyi korunmuş antik kentlerinden biridir." },
+    { "type": "text", "content": "Göller Bölgesi'nin içinde yer alır ve Akdeniz ile İç Anadolu arasında bir geçiş noktasıdır." },
+    { "type": "text", "content": "Gülleri ve gül suyu üretimiyle Isparta'ya komşu olan bu şehir çiçek tarımıyla da bilinir." }
+  ]
+}

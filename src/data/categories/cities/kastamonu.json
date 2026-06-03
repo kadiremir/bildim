@@ -1,0 +1,11 @@
+{
+  "id": "kastamonu",
+  "answer": "kastamonu",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en ünlü pastırmalarından birini üretir." },
+    { "type": "text", "content": "Karadeniz'in güneyinde yer alır ve çok gür ormanlarla çevrilidir." },
+    { "type": "text", "content": "Atatürk bu şehirde şapka devrimini ilan etmiş; burada şapka giyerek halka örnek olmuştur." },
+    { "type": "text", "content": "Tarihi konakları ve yöresel mimarisiyle bilinir." },
+    { "type": "text", "content": "Ilgaz Dağı Milli Parkı bu ile bağlıdır; kış sporları için ziyaret edilir." }
+  ]
+}

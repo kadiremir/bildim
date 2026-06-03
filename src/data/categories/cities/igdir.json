@@ -1,0 +1,11 @@
+{
+  "id": "igdir",
+  "answer": "ığdır",
+  "hints": [
+    { "type": "text", "content": "Bu şehrin hemen önünde Türkiye'nin en yüksek dağı olan Ağrı Dağı yükselir; manzarası büyüleyicidir." },
+    { "type": "text", "content": "Türkiye'nin en az yağış alan ve en sıcak yazlara sahip şehirlerinden biridir; iklimi step ve yarı kuraktır." },
+    { "type": "text", "content": "Hem Ermenistan hem de İran sınırına yakın olan bu şehir, Türkiye'nin üç ülke sınırına en yakın illerinden biridir." },
+    { "type": "text", "content": "Aras Nehri bu ilin sınırından akar ve Ermenistan ile doğal sınırı oluşturur." },
+    { "type": "text", "content": "Domates ve kavun yetiştiriciliğinde çok verimli olan bu ilin yazları oldukça sıcak geçer." }
+  ]
+}

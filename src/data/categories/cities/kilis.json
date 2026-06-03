@@ -1,0 +1,11 @@
+{
+  "id": "kilis",
+  "answer": "kilis",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin Suriye sınırına en yakın il merkezlerinden biridir." },
+    { "type": "text", "content": "Zeytinyağı üretiminde çok verimli olan bu şehrin bağları ve bahçeleri meşhurdur." },
+    { "type": "text", "content": "Türkiye'nin en küçük yüzölçümlü illerinden biridir." },
+    { "type": "text", "content": "Gaziantep'e yakın olan bu şehir Güneydoğu Anadolu mutfağının etkisi altındadır." },
+    { "type": "text", "content": "Tarihi Ravanda Kalesi bu şehre yakın bir konumda bulunur." }
+  ]
+}

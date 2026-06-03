@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, View, StyleSheet, Dimensions } from 'react-native';
-
-const { width } = Dimensions.get('window');
+import { Animated, View, StyleSheet } from 'react-native';
 
 interface Props {
   children: React.ReactNode;
@@ -15,7 +13,7 @@ export function ShimmerCard({ children, style, enabled = true, shimmerColor = 'r
 
   useEffect(() => {
     if (!enabled) return;
-    Animated.loop(
+    const shimmerAnimation = Animated.loop(
       Animated.sequence([
         Animated.delay(2000 + Math.random() * 2000),
         Animated.timing(shimmerX, {
@@ -25,8 +23,10 @@ export function ShimmerCard({ children, style, enabled = true, shimmerColor = 'r
         }),
         Animated.timing(shimmerX, { toValue: -1, duration: 0, useNativeDriver: true }),
       ])
-    ).start();
-  }, [enabled]);
+    );
+    shimmerAnimation.start();
+    return () => shimmerAnimation.stop();
+  }, [enabled, shimmerX]);
 
   const translateX = shimmerX.interpolate({
     inputRange: [-1, 2],

@@ -1,0 +1,11 @@
+{
+  "id": "mardin",
+  "answer": "mardin",
+  "hints": [
+    { "type": "text", "content": "Bu şehir yüksek bir kayalığın üzerine kurulmuştur; evleri basamak basamak aşağı iner." },
+    { "type": "text", "content": "Taş evleri ve tarihi çarşısıyla Orta Doğu mimarisinin en güzel örneklerini sunar." },
+    { "type": "text", "content": "Türkiye'de hâlâ Aramice konuşan küçük bir Hristiyan topluluk bu şehrin köylerinde yaşar." },
+    { "type": "text", "content": "Güneydoğu Anadolu'da Suriye sınırına yakın bir tepede konumlanmıştır." },
+    { "type": "text", "content": "Mor Gabriel Manastırı bu ile bağlıdır; MS 397 yılında kurulmuş dünyanın hâlâ işlevli en eski manastırlarından biridir." }
+  ]
+}

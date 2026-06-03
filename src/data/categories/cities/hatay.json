@@ -1,0 +1,11 @@
+{
+  "id": "hatay",
+  "answer": "hatay",
+  "hints": [
+    { "type": "text", "content": "Bu şehirde Hristiyanlar, Müslümanlar ve Yahudiler yüzyıllardır barış içinde bir arada yaşamıştır." },
+    { "type": "text", "content": "Dünyanın ilk kilisesi olduğu söylenen Sen Piyer Kilisesi bu şehirdedir." },
+    { "type": "text", "content": "Mutfağı Türkiye'nin en zengin ve çeşitli mutfaklarından biri olarak kabul edilir." },
+    { "type": "text", "content": "Suriye sınırına dayanan bu şehir 1939'da Türkiye'ye katılmıştır." },
+    { "type": "text", "content": "Antakya adıyla da bilinen il merkezi, Roma döneminde imparatorluğun üçüncü büyük şehriydi." }
+  ]
+}

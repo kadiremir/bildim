@@ -1,0 +1,11 @@
+{
+  "id": "zonguldak",
+  "answer": "zonguldak",
+  "hints": [
+    { "type": "text", "content": "Bu şehir Türkiye'nin en önemli taş kömürü rezervlerine ev sahipliği yapar." },
+    { "type": "text", "content": "Madenciler bu şehrin en önemli meslek grubu olmuştur; madencilik tarihi uzun yıllara dayanır." },
+    { "type": "text", "content": "Karadeniz kıyısında yer alan bu şehir çok yağış alır ve her yer yeşildir." },
+    { "type": "text", "content": "Ereğli ilçesi bu ile bağlıdır; büyük bir demir-çelik fabrikası burada kurulmuştur." },
+    { "type": "text", "content": "Batı Karadeniz'in sanayi merkezi olan bu şehir kömür madenleriyle Türkiye'nin sanayileşmesine önemli katkıda bulunmuştur." }
+  ]
+}

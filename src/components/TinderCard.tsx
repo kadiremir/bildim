@@ -8,7 +8,7 @@ import {
   Animated,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Hint } from '../data/countries';
+import { Hint } from '../data/types';
 import { hapticLight, hapticMedium } from '../utils/haptics';
 import { playSound } from '../utils/sounds';
 
@@ -26,9 +26,17 @@ function TypewriterText({ text, style, speed = 22, startDelay = 180 }: Typewrite
   const cursorOpacity = useRef(new Animated.Value(1)).current;
   const intervalRef   = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const finishTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setVisibleCount(0);
+    cursorOpacity.setValue(1);
+
+    if (speed <= 0) {
+      setVisibleCount(text.length);
+      cursorOpacity.setValue(0);
+      return undefined;
+    }
 
     // Blinking cursor loop
     const cursorAnim = Animated.loop(
@@ -47,7 +55,7 @@ function TypewriterText({ text, style, speed = 22, startDelay = 180 }: Typewrite
         if (i >= text.length) {
           clearInterval(intervalRef.current!);
           // Stop cursor blink after typing finishes
-          setTimeout(() => {
+          finishTimeoutRef.current = setTimeout(() => {
             cursorAnim.stop();
             cursorOpacity.setValue(0);
           }, 800);
@@ -57,10 +65,11 @@ function TypewriterText({ text, style, speed = 22, startDelay = 180 }: Typewrite
 
     return () => {
       clearTimeout(timeoutRef.current!);
+      clearTimeout(finishTimeoutRef.current!);
       clearInterval(intervalRef.current!);
       cursorAnim.stop();
     };
-  }, [text]);
+  }, [cursorOpacity, speed, startDelay, text]);
 
   const shown  = text.slice(0, visibleCount);
   const hidden = text.slice(visibleCount);
@@ -142,7 +151,7 @@ export function TinderCard({
         toValue: 1,
         tension: 55,
         friction: 9,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
     }
   }, [stackIndex]);
@@ -205,10 +214,13 @@ export function TinderCard({
   return (
     <Animated.View
       style={[styles.card, { width: cardWidth, height: cardHeight }, cardStyle, { zIndex: 20 - stackIndex }]}
+      accessibilityElementsHidden={!isTop}
+      importantForAccessibility={isTop ? 'auto' : 'no-hide-descendants'}
+      pointerEvents={isTop ? 'auto' : 'none'}
       {...(isTop ? panResponder.panHandlers : {})}
     >
       <LinearGradient
-        colors={['#141E30', '#1a2744', '#141E30']}
+        colors={['#1a1e45', '#222860', '#1a1e45']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.cardInner}
@@ -231,12 +243,18 @@ export function TinderCard({
 
         {/* Hint content */}
         <View style={styles.content}>
-          {hint.type === 'text' ? (
+          {!isTop ? (
+            <View style={styles.lockedHint}>
+              <View style={styles.lockedLineWide} />
+              <View style={styles.lockedLine} />
+              <Text style={styles.lockedHintText}>Kilitli ipucu</Text>
+            </View>
+          ) : hint.type === 'text' ? (
             <TypewriterText
               text={hint.content}
               style={styles.hintText}
-              speed={isTop ? 20 : 0}
-              startDelay={isTop ? 140 : 0}
+              speed={20}
+              startDelay={140}
             />
           ) : (
             <AnimatedImage uri={hint.uri} caption={hint.caption} height={cardHeight * 0.55} />
@@ -338,6 +356,29 @@ const styles = StyleSheet.create({
     lineHeight: 35,
     fontWeight: '500',
     letterSpacing: -0.2,
+  },
+  lockedHint: {
+    gap: 14,
+    opacity: 0.55,
+  },
+  lockedLineWide: {
+    width: '72%',
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+  },
+  lockedLine: {
+    width: '52%',
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  lockedHintText: {
+    color: 'rgba(255,255,255,0.22)',
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
   imageWrap: {
     borderRadius: 18,

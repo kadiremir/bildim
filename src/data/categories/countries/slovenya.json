@@ -1,0 +1,11 @@
+{
+  "id": "slovenya",
+  "answer": "slovenya",
+  "hints": [
+    { "type": "text", "content": "Bu ülkenin yüzde altmışından fazlası ormanla kaplıdır — Avrupa'nın en yeşil ülkelerinden biridir." },
+    { "type": "text", "content": "Dünyanın en eski tekerleği burada bulundu: bir bataklıkta ortaya çıkan 5.000 yıllık ahşap tekerlek." },
+    { "type": "text", "content": "Bu küçük ülke dört farklı komşusuyla sınır paylaşır ve küçük ama etkileyici bir kıyı şeridine sahiptir." },
+    { "type": "text", "content": "Başkenti Orta Avrupa'da yer alır ve L harfiyle başlar." },
+    { "type": "text", "content": "Adriyatik Denizi'ne kısa bir sahil şeridiyle açılır ve Triglav Dağı en yüksek zirvesidir." }
+  ]
+}
