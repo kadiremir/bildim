@@ -17,7 +17,7 @@ import { countries } from '../data/countries';
 import { cities } from '../data/cities';
 import { animals } from '../data/categories';
 import { TinderCard } from '../components/TinderCard';
-import { GuessInput } from '../components/GuessInput';
+import { GuessModal } from '../components/GuessModal';
 import { Confetti } from '../components/Confetti';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { hapticSuccess, hapticError, hapticMedium, hapticLight } from '../utils/haptics';
@@ -306,7 +306,7 @@ export function GameScreen({ category, onBack }: Props) {
           </View>
         </View>
 
-        {/* Card stack */}
+        {/* Card stack — stays visible during guessing (modal overlays it) */}
         {(phase === 'swiping' || phase === 'guessing') && (
           <Animated.View style={[styles.cardArea, { height: cardHeight, opacity: stackFade }]}>
             {[...visibleHints].reverse().map((hint, reverseIdx) => {
@@ -413,39 +413,6 @@ export function GameScreen({ category, onBack }: Props) {
             </View>
           )}
 
-          {phase === 'guessing' && (
-            <View style={styles.guessActions}>
-              <View style={styles.guessHeaderRow}>
-                <Text style={styles.guessTitle}>
-                  {category === 'cities' ? 'Hangi şehir?' : 'Hangi ülke?'}
-                </Text>
-                {wrongCount > 0 && (
-                  <View style={styles.wrongCounter}>
-                    <Text style={styles.wrongCounterText}>{wrongCount} ✗</Text>
-                  </View>
-                )}
-              </View>
-
-              <GuessInput
-                onSubmit={handleGuess}
-                shakeSignal={shakeSignal}
-                placeholder={category === 'cities' ? 'Şehrin adını yaz…' : 'Ülkenin adını yaz…'}
-              />
-
-              {wrongCount > 0 && (
-                <View style={styles.wrongBanner}>
-                  <Text style={styles.wrongBannerIcon}>✗</Text>
-                  <Text style={styles.wrongBannerText}>
-                    Yanlış!{isLastHint ? " Tüm ipuçları gösterildi." : " Yeni ipucu açıldı."}
-                  </Text>
-                </View>
-              )}
-
-              <TouchableOpacity onPress={() => setPhase('swiping')} activeOpacity={0.7}>
-                <Text style={styles.backToClues}>← İpuçlarına dön</Text>
-              </TouchableOpacity>
-            </View>
-          )}
         </KeyboardAvoidingView>
       </SafeAreaView>
 
@@ -528,6 +495,19 @@ export function GameScreen({ category, onBack }: Props) {
           </LinearGradient>
         </Animated.View>
       )}
+
+      {/* Guess modal — opens when user taps Bildim! */}
+      <GuessModal
+        visible={phase === 'guessing'}
+        category={category}
+        hintIndex={hintIndex}
+        totalHints={totalHints}
+        wrongCount={wrongCount}
+        shakeSignal={shakeSignal}
+        isLastHint={isLastHint}
+        onSubmit={handleGuess}
+        onBackToClues={() => setPhase('swiping')}
+      />
 
       {/* Confetti layer */}
       <Confetti trigger={confettiTrigger} originX={width / 2} originY={height * 0.4} />

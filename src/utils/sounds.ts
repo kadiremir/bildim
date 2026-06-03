@@ -1,6 +1,8 @@
 import { Platform } from 'react-native';
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-audio';
 
+const WRONG_MP3 = require('../../assets/sounds/wrong.mp3');
+
 type SoundType = 'swipe' | 'correct' | 'wrong' | 'tap' | 'points';
 type Tone = {
   frequency: number;
@@ -174,38 +176,26 @@ function playChord(notes: number[], duration: number, gain: number) {
   notes.forEach((f) => playTone(f, 'sine', duration, gain));
 }
 
-export function playSound(type: SoundType) {
-  try {
-    if (Platform.OS !== 'web') {
-      NATIVE_PATTERNS[type].forEach((tone) => {
-        playNativeTone(tone).catch(() => {});
-      });
-      return;
-    }
+async function playWrongMp3() {
+  if (Platform.OS === 'web') {
+    // On web, use an Audio element to play the bundled MP3
+    const audio = new window.Audio(WRONG_MP3);
+    audio.volume = 0.85;
+    audio.play().catch(() => {});
+    return;
+  }
+  await ensureNativeAudioMode();
+  const player = createAudioPlayer(WRONG_MP3, { keepAudioSessionActive: true });
+  activePlayers.add(player);
+  player.play();
+  setTimeout(() => {
+    activePlayers.delete(player);
+    player.remove();
+  }, 3000);
+}
 
-    switch (type) {
-      case 'swipe':
-        playTone(300, 'sine', 0.12, 0.08, 500);
-        break;
-      case 'tap':
-        playTone(600, 'sine', 0.06, 0.06);
-        break;
-      case 'correct':
-        setTimeout(() => playTone(523, 'sine', 0.15, 0.12), 0);
-        setTimeout(() => playTone(659, 'sine', 0.15, 0.12), 100);
-        setTimeout(() => playTone(784, 'sine', 0.15, 0.12), 200);
-        setTimeout(() => playChord([1047, 1319], 0.4, 0.1), 300);
-        break;
-      case 'wrong':
-        playTone(200, 'sawtooth', 0.22, 0.08, 350);
-        break;
-      case 'points':
-        setTimeout(() => playTone(880, 'sine', 0.1, 0.06), 0);
-        setTimeout(() => playTone(1100, 'sine', 0.1, 0.06), 80);
-        setTimeout(() => playTone(1320, 'sine', 0.2, 0.08), 160);
-        break;
-    }
-  } catch (_) {
-    // Ignore environments that block programmatic audio.
+export function playSound(type: SoundType) {
+  if (type === 'wrong') {
+    playWrongMp3().catch(() => {});
   }
 }
