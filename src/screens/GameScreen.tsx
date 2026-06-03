@@ -125,6 +125,7 @@ export function GameScreen({ category, onBack }: Props) {
   const [score, setScore] = useState(0);
   const [confettiTrigger, setConfettiTrigger] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [revealedPositions, setRevealedPositions] = useState<number[]>([]);
 
   const resultSlide   = useRef(new Animated.Value(height)).current;
   const resultOpacity = useRef(new Animated.Value(0)).current;
@@ -155,6 +156,7 @@ export function GameScreen({ category, onBack }: Props) {
     setShakeSignal(0);
     setScore(0);
     setStreak(0);
+    setRevealedPositions([]);
   }, [gameContent]);
 
   useEffect(() => {
@@ -265,8 +267,27 @@ export function GameScreen({ category, onBack }: Props) {
       setHintIndex(0);
       setPhase('swiping');
       setWrongCount(0);
+      setRevealedPositions([]);
     });
   }, [height, hideResult, resultSlide, deck.length, gameContent.items]);
+
+  const handleRevealFirstLetter = useCallback(() => {
+    if (revealedPositions.includes(0)) return;
+    setRevealedPositions((prev) => [...prev, 0]);
+    setScore((s) => Math.max(0, s - 1));
+  }, [revealedPositions]);
+
+  const handleRevealRandomLetter = useCallback(() => {
+    const chars = country.answer.split('');
+    const available = chars
+      .map((c, i) => ({ c, i }))
+      .filter(({ c, i }) => c !== ' ' && !revealedPositions.includes(i))
+      .map(({ i }) => i);
+    if (available.length === 0) return;
+    const idx = available[Math.floor(Math.random() * available.length)];
+    setRevealedPositions((prev) => [...prev, idx]);
+    setScore((s) => Math.max(0, s - 1));
+  }, [country.answer, revealedPositions]);
 
   const handleGiveUp = useCallback(() => {
     hapticMedium();
@@ -500,13 +521,17 @@ export function GameScreen({ category, onBack }: Props) {
       <GuessModal
         visible={phase === 'guessing'}
         category={category}
+        answer={country.answer}
         hintIndex={hintIndex}
         totalHints={totalHints}
         wrongCount={wrongCount}
         shakeSignal={shakeSignal}
         isLastHint={isLastHint}
+        revealedPositions={revealedPositions}
         onSubmit={handleGuess}
         onBackToClues={() => setPhase('swiping')}
+        onRevealFirstLetter={handleRevealFirstLetter}
+        onRevealRandomLetter={handleRevealRandomLetter}
       />
 
       {/* Confetti layer */}
