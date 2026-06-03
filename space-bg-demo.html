@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bildim — Space Fly-Through Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: radial-gradient(ellipse at 50% 45%, #1b1850 0%, #120F38 45%, #0A0822 100%);
+    font-family: system-ui, sans-serif;
+    position: relative;
+  }
+  #field { position: absolute; inset: 0; pointer-events: none; }
+  #field > * { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+
+  /* Foreground UI mock to show the bg sits behind real content */
+  .panel {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: min(86%, 440px); padding: 30px 26px; border-radius: 24px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
+    text-align: center; color: #fff; z-index: 10000000;
+  }
+  .panel h1 { font-size: 34px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
+  .panel p  { color: rgba(255,255,255,0.55); font-size: 14px; line-height: 22px; }
+  .tag {
+    display:inline-block; margin-top:16px; padding:6px 14px; border-radius:20px;
+    background: rgba(99,102,241,0.18); border:1px solid rgba(99,102,241,0.35);
+    color:#a5b4fc; font-size:11px; font-weight:700; letter-spacing:1.5px;
+  }
+  .hint {
+    position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;
+    color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 1px; z-index: 10000000;
+  }
+</style>
+</head>
+<body>
+  <div id="field"></div>
+
+  <div class="panel">
+    <h1>Bildim bildim!</h1>
+    <p>Flying through space — objects rush out from the centre toward you in every direction.</p>
+    <div class="tag">TRUE 3D PERSPECTIVE FLY-THROUGH</div>
+  </div>
+  <div class="hint">DEMO · 3D projection · realistic procedural planets · zero image assets</div>
+
+<script>
+const field = document.getElementById('field');
+const FOCAL = 360;          // perspective focal length
+const Z_NEAR = 50;          // recycle when closer than this
+const Z_FAR  = 1200;        // spawn distance
+let cx = innerWidth / 2, cy = innerHeight / 2;
+addEventListener('resize', () => { cx = innerWidth/2; cy = innerHeight/2; });
+
+// ── Realistic procedural planet ──
+// Light from upper-left: bright rim + dark terminator + atmosphere glow.
+function makePlanet(D, light, dark, atmo, ring, bands) {
+  const w = document.createElement('div');
+  w.style.width = w.style.height = D + 'px';
+  w.style.marginLeft = (-D/2) + 'px';
+  w.style.marginTop  = (-D/2) + 'px';
+
+  const body = document.createElement('div');
+  let bg = `radial-gradient(circle at 33% 30%, ${light} 0%, ${dark} 68%, #000 120%)`;
+  body.style.cssText =
+    `position:absolute;inset:0;border-radius:50%;background:${bg};` +
+    // terminator shadow (night side, lower-right) + soft self-shadow
+    `box-shadow:inset ${-D*0.18}px ${-D*0.16}px ${D*0.4}px rgba(0,0,0,0.7),` +
+    `inset ${D*0.06}px ${D*0.05}px ${D*0.18}px ${light}55;`;
+  w.appendChild(body);
+
+  // gas-giant bands (subtle horizontal striping)
+  if (bands) {
+    const b = document.createElement('div');
+    b.style.cssText =
+      `position:absolute;inset:0;border-radius:50%;overflow:hidden;opacity:0.35;` +
+      `background:repeating-linear-gradient(8deg, transparent 0 ${D*0.08}px, ${dark}88 ${D*0.08}px ${D*0.14}px);` +
+      `-webkit-mask:radial-gradient(circle at 33% 30%, #000 60%, transparent 75%);` +
+      `mask:radial-gradient(circle at 33% 30%, #000 60%, transparent 75%);`;
+    w.appendChild(b);
+  }
+
+  // bright specular highlight
+  const spec = document.createElement('div');
+  spec.style.cssText =
+    `position:absolute;left:24%;top:20%;width:${D*0.28}px;height:${D*0.22}px;border-radius:50%;` +
+    `background:radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%);filter:blur(${D*0.02}px);`;
+  w.appendChild(spec);
+
+  // atmosphere halo
+  const halo = document.createElement('div');
+  halo.style.cssText =
+    `position:absolute;inset:${-D*0.08}px;border-radius:50%;` +
+    `box-shadow:0 0 ${D*0.5}px ${D*0.12}px ${atmo};`;
+  w.insertBefore(halo, body);
+
+  if (ring) {
+    const r = document.createElement('div');
+    const rw = D * 1.9, rh = D * 0.5;
+    r.style.cssText =
+      `position:absolute;left:${(D-rw)/2}px;top:${(D-rh)/2}px;width:${rw}px;height:${rh}px;` +
+      `border-radius:50%;border:${Math.max(2,D*0.045)}px solid ${ring};` +
+      `transform:rotate(-22deg);box-shadow:0 0 ${D*0.15}px ${ring};opacity:0.85;`;
+    w.appendChild(r);
+  }
+  return w;
+}
+function makeMoon(D) {
+  const w = makePlanet(D, '#fdf6e3', '#9c9277', 'rgba(253,246,227,0.12)', null, false);
+  return w;
+}
+function makeEmoji(ch, base) {
+  const e = document.createElement('div');
+  e.style.cssText = `font-size:${base}px;line-height:1;margin-left:${-base/2}px;margin-top:${-base/2}px;` +
+    `filter:drop-shadow(0 0 10px rgba(150,190,255,0.5));`;
+  e.textContent = ch;
+  e.dataset.base = base;
+  return e;
+}
+
+// ── Object pool ──
+// type: planet/emoji ; baseR = on-screen radius at scale 1
+const defs = [
+  { el: makePlanet(120, '#7d97ff', '#28327e', 'rgba(110,140,255,0.35)', null, true) },
+  { el: makePlanet(96,  '#ffb37a', '#9a3320', 'rgba(255,160,90,0.30)', 'rgba(255,217,160,0.9)', true) },
+  { el: makePlanet(80,  '#a98bff', '#352678', 'rgba(150,110,255,0.30)', null, false) },
+  { el: makePlanet(70,  '#7ef0bd', '#0e5d3a', 'rgba(110,231,183,0.28)', null, true) },
+  { el: makePlanet(90,  '#f3a8fc', '#7a1a82', 'rgba(240,160,255,0.30)', 'rgba(251,207,232,0.85)', false) },
+  { el: makeMoon(64) },
+  { el: makeEmoji('🌍', 70) },
+  { el: makeEmoji('🛰️', 52) },
+  { el: makeEmoji('☄️', 58) },
+  { el: makePlanet(54,  '#9fd0ff', '#1c3b6e', 'rgba(120,180,255,0.28)', null, false) },
+];
+
+// Build state for each object
+const objs = defs.map(d => {
+  field.appendChild(d.el);
+  return spawn({ el: d.el, init: true });
+});
+
+function spawn(o, opts={}) {
+  o = o || {};
+  // random direction spread around centre
+  o.x = (Math.random() - 0.5) * 900;
+  o.y = (Math.random() - 0.5) * 900;
+  o.z = opts.init ? (Z_NEAR + Math.random() * (Z_FAR - Z_NEAR)) : Z_FAR;
+  o.speed = 90 + Math.random() * 170;     // world units / sec toward camera
+  o.rot = (Math.random() - 0.5) * 40;     // static slight tilt
+  o.spin = (Math.random() - 0.5) * 12;    // deg/sec gentle rotation
+  o.angle = Math.random() * 360;
+  return o;
+}
+
+// ── Warp starfield (same projection, many tiny points) ──
+const STAR_N = 160;
+const stars = [];
+for (let i = 0; i < STAR_N; i++) {
+  const s = document.createElement('div');
+  s.style.cssText = 'width:2px;height:2px;border-radius:50%;background:#fff;margin-left:-1px;margin-top:-1px';
+  field.appendChild(s);
+  stars.push(spawnStar({ el: s }, true));
+}
+function spawnStar(s, init) {
+  s.x = (Math.random() - 0.5) * 1600;
+  s.y = (Math.random() - 0.5) * 1600;
+  s.z = init ? (Z_NEAR + Math.random() * (Z_FAR - Z_NEAR)) : Z_FAR;
+  s.speed = 140 + Math.random() * 220;
+  s.hue = Math.random() < 0.2 ? '#bfe' : (Math.random() < 0.4 ? '#fff7e8' : '#fff');
+  s.el.style.background = s.hue;
+  return s;
+}
+
+// ── Animation loop ──
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now;
+
+  // stars
+  for (const s of stars) {
+    s.z -= s.speed * dt;
+    if (s.z < Z_NEAR) { spawnStar(s, false); continue; }
+    const k = FOCAL / s.z;
+    const px = cx + s.x * k, py = cy + s.y * k;
+    if (px < -50 || px > innerWidth+50 || py < -50 || py > innerHeight+50) { spawnStar(s,false); continue; }
+    const depth = 1 - (s.z - Z_NEAR) / (Z_FAR - Z_NEAR);   // 0 far .. 1 near
+    const sc = Math.max(0.4, k * 1.4);
+    s.el.style.opacity = (0.15 + depth * 0.85).toFixed(2);
+    s.el.style.transform = `translate3d(${px}px,${py}px,0) scale(${sc.toFixed(2)})`;
+  }
+
+  // objects
+  for (const o of objs) {
+    o.z -= o.speed * dt;
+    o.angle += o.spin * dt;
+    if (o.z < Z_NEAR) { spawn(o); continue; }
+    const k = FOCAL / o.z;
+    const px = cx + o.x * k, py = cy + o.y * k;
+    // recycle once it has clearly flown past the edges
+    if (px < -300 || px > innerWidth+300 || py < -300 || py > innerHeight+300) { spawn(o); continue; }
+    const depthN = (o.z - Z_NEAR) / (Z_FAR - Z_NEAR);      // 1 far .. 0 near
+    const fadeIn = Math.min(1, (1 - depthN) * 2.2);         // fade in from far
+    const opacity = Math.max(0, Math.min(1, fadeIn));
+    o.el.style.opacity = opacity.toFixed(2);
+    o.el.style.zIndex = Math.round(100000 - o.z);
+    o.el.style.transform =
+      `translate3d(${px}px,${py}px,0) scale(${k.toFixed(3)}) rotate(${(o.rot + o.angle).toFixed(1)}deg)`;
+  }
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

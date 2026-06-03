@@ -279,12 +279,6 @@ export function GameScreen({ category, onBack }: Props) {
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
-      <LinearGradient
-        colors={['#0F1230', '#161A4A', '#0F1230']}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={styles.orb1} />
-      <View style={styles.orb2} />
 
       <SafeAreaView style={styles.safe}>
         {/* Header */}
@@ -542,7 +536,7 @@ export function GameScreen({ category, onBack }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#0F1230', overflow: 'hidden' },
+  root: { flex: 1, backgroundColor: 'transparent', overflow: 'hidden' },
   safe: { flex: 1 },
   orb1: {
     position: 'absolute', width: 340, height: 340, borderRadius: 170,

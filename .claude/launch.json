@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "bg-proposals",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "5500", "."],
+      "port": 5500
+    },
+    {
       "name": "Expo (all platforms)",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start"],
@@ -9,10 +15,9 @@
     },
     {
       "name": "Expo Web",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "web"],
-      "port": 8081,
-      "autoPort": true
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["expo", "start", "--web", "--port", "8090"],
+      "port": 8090
     },
     {
       "name": "Expo Android",

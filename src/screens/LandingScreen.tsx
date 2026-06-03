@@ -12,7 +12,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ParticleField } from '../components/ParticleField';
 import { ShimmerCard } from '../components/ShimmerCard';
 import { hapticMedium, hapticLight } from '../utils/haptics';
 import { playSound } from '../utils/sounds';
@@ -30,7 +29,7 @@ function itemStats(id: string, available: boolean): string {
   return `${count} içerik`;
 }
 
-const CARD_GAP = 12;
+const CARD_GAP = 32;
 
 type LandingLayout = {
   width: number;
@@ -497,7 +496,7 @@ const sb = StyleSheet.create({
   glow:    { position: 'absolute', width: 60, height: 60, borderRadius: 30, top: -10 },
   value:   { fontWeight: '900', letterSpacing: -0.5 },
   label:   { color: 'rgba(255,255,255,0.38)', fontWeight: '600', letterSpacing: 0.3 },
-  divider: { width: 1, height: 48, backgroundColor: 'rgba(255,255,255,0.07)' },
+  divider: { width: 1, height: 48, backgroundColor: 'transparent' },
 });
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -529,27 +528,6 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
     <View style={s.root}>
       <StatusBar barStyle="light-content" />
 
-      {/* Background */}
-      <LinearGradient colors={['#0F0D2A', '#161345', '#1E195C', '#0F0D2A']}
-        locations={[0, 0.3, 0.7, 1]} style={StyleSheet.absoluteFill} />
-
-      {/* Rotating orb */}
-      <Animated.View style={[s.bigOrb, { left: layout.width / 2 - 250, transform: [{ rotate: orbSpin }] }]}>
-        <LinearGradient colors={['#4F46E5', '#7C3AED', '#EC4899', '#4F46E5']}
-          start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-      </Animated.View>
-
-      <View style={s.glowTL} />
-      <View style={s.glowBR} />
-
-      <ParticleField />
-
-      {/* Subtle horizontal grid lines */}
-      <View style={StyleSheet.absoluteFill} pointerEvents="none">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <View key={i} style={[s.gridLine, { top: (layout.height / 8) * i }]} />
-        ))}
-      </View>
 
       <SafeAreaView style={s.safe}>
         <ScrollView
@@ -581,7 +559,7 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
                 fontSize: layout.isDesktop ? 72 : r(layout, 38, 44, 72),
                 lineHeight: layout.isDesktop ? 76 : r(layout, 43, 50, 76),
               },
-            ]}>Bildim bildim!</Text>
+            ]}>Bildim!</Text>
 
             <LinearGradient
               colors={['transparent', '#6366f1', '#a855f7', '#ec4899', 'transparent']}
@@ -651,7 +629,7 @@ export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) 
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  root:  { flex: 1, backgroundColor: '#0F0D2A', overflow: 'hidden' },
+  root:  { flex: 1, backgroundColor: 'transparent', overflow: 'hidden' },
   safe:  { flex: 1 },
   // Remove horizontal padding from ScrollView — contentWrap handles centering
   scroll: { alignItems: 'center' },

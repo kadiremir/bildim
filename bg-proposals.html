@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Aurora Proposals — Bildim</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:system-ui,sans-serif;color:#fff;overflow:hidden;height:100vh}
+
+.tabs{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.07)}
+.tab{flex:1;padding:14px 8px;cursor:pointer;font-size:10.5px;font-weight:800;
+  letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.28);
+  border-bottom:2px solid transparent;transition:all .2s;text-align:center;white-space:nowrap}
+.tab.active{color:#fff;border-color:var(--accent,#a855f7)}
+.tab:hover:not(.active){color:rgba(255,255,255,.6)}
+
+.scene{display:none;position:fixed;inset:0;top:46px;overflow:hidden}
+.scene.active{display:block}
+
+.blobs{position:absolute;inset:0;pointer-events:none;z-index:1}
+.blob{position:absolute;border-radius:50%;mix-blend-mode:screen}
+canvas.layer{position:absolute;inset:0;width:100%;height:100%}
+
+.phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  z-index:60;width:292px;padding:30px 24px 26px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.11);border-radius:32px;
+  backdrop-filter:blur(28px) saturate(200%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 28px 80px rgba(0,0,0,.55),
+             inset 0 1px 0 rgba(255,255,255,.09)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;
+  border-radius:20px;margin-bottom:20px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  font-size:9.5px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.55)}
+.dot{width:6px;height:6px;border-radius:3px;background:currentColor;opacity:.9;
+  animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.9}50%{opacity:.25}}
+.title{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1.05;
+  margin-bottom:10px;color:#fff}
+.sub{font-size:13px;color:rgba(255,255,255,.36);line-height:1.6;margin-bottom:24px}
+.btn{display:block;padding:15px;border-radius:16px;text-align:center;
+  font-size:13.5px;font-weight:800;letter-spacing:.6px;color:#fff;
+  animation:btnglow 2.2s ease-in-out infinite}
+@keyframes btnglow{0%,100%{box-shadow:0 0 22px var(--btn-glow,rgba(99,102,241,.5))}
+                   50%{box-shadow:0 0 44px var(--btn-glow,rgba(168,85,247,.7))}}
+.chips{display:flex;gap:8px;margin-top:14px}
+.chip{padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:.8px;
+  background:rgba(255,255,255,.05);color:rgba(255,255,255,.24);border:1px solid rgba(255,255,255,.08)}
+
+.lbl{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  z-index:100;padding:7px 20px;border-radius:30px;
+  background:rgba(0,0,0,.48);border:1px solid rgba(255,255,255,.1);
+  font-size:10.5px;font-weight:700;letter-spacing:.8px;color:rgba(255,255,255,.4);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="tabs" id="tabs"></div>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <filter id="liq" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.007" numOctaves="4" seed="9" result="n">
+        <animate attributeName="baseFrequency" dur="22s" keyTimes="0;.5;1"
+          values="0.011 0.007;0.007 0.013;0.011 0.007" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="110" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="liq2" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.005" numOctaves="3" seed="3" result="n">
+        <animate attributeName="baseFrequency" dur="30s" keyTimes="0;.5;1"
+          values="0.008 0.005;0.005 0.010;0.008 0.005" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="130" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+// ── CSS keyframes for blob drift ──────────────────────────────────────
+const KF=document.createElement('style');
+KF.textContent=`
+@keyframes d0{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(7%,9%) scale(1.1)}50%{transform:translate(-6%,5%) scale(.94)}75%{transform:translate(4%,-7%) scale(1.06)}}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1) rotate(0deg)}33%{transform:translate(-8%,6%) scale(1.09) rotate(9deg)}66%{transform:translate(6%,-9%) scale(.91) rotate(-6deg)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}20%{transform:translate(9%,-6%) scale(1.13)}40%{transform:translate(-5%,10%) scale(.89)}60%{transform:translate(7%,4%) scale(1.08)}80%{transform:translate(-8%,-5%) scale(.97)}}
+@keyframes d3{0%,100%{transform:translate(0,0) rotate(0deg) scale(1)}50%{transform:translate(-5%,8%) rotate(15deg) scale(1.12)}}
+`;
+document.head.appendChild(KF);
+
+const SCENES=[
+  { id:'s0', label:'① Original', accent:'#a855f7', base:'#05081a', filter:'liq',
+    btnGrad:'linear-gradient(135deg,#6366f1,#a855f7,#ec4899)', btnGlow:'rgba(99,102,241,.5)',
+    blobs:[
+      {cx:20,cy:10,w:90,h:68,col:'#48c78e',dur:18,del:0,anim:'d0'},
+      {cx:72,cy:8,w:80,h:62,col:'#6366f1',dur:22,del:-4,anim:'d1'},
+      {cx:50,cy:46,w:96,h:78,col:'#a855f7',dur:25,del:-8,anim:'d2'},
+      {cx:14,cy:67,w:82,h:60,col:'#ec4899',dur:20,del:-3,anim:'d3'},
+      {cx:84,cy:62,w:72,h:64,col:'#14b8a6',dur:28,del:-12,anim:'d1'},
+      {cx:62,cy:22,w:68,h:54,col:'#f59e0b',dur:16,del:-6,anim:'d0'},
+      {cx:35,cy:82,w:88,h:58,col:'#06b6d4',dur:24,del:-9,anim:'d2'},
+    ]},
+  { id:'s1', label:'② Volcanic', accent:'#f97316', base:'#0d0500', filter:'liq',
+    btnGrad:'linear-gradient(135deg,#dc2626,#f97316,#fbbf24)', btnGlow:'rgba(249,115,22,.55)',
+    blobs:[
+      {cx:18,cy:12,w:94,h:70,col:'#ef4444',dur:20,del:0,anim:'d1'},
+      {cx:75,cy:10,w:82,h:64,col:'#f97316',dur:24,del:-5,anim:'d2'},
+      {cx:50,cy:50,w:100,h:82,col:'#dc2626',dur:27,del:-9,anim:'d3'},
+      {cx:22,cy:70,w:78,h:62,col:'#fbbf24',dur:19,del:-3,anim:'d0'},
+      {cx:86,cy:65,w:70,h:60,col:'#b45309',dur:30,del:-14,anim:'d2'},
+      {cx:60,cy:25,w:66,h:52,col:'#f43f5e',dur:15,del:-7,anim:'d1'},
+      {cx:40,cy:80,w:85,h:60,col:'#ea580c',dur:23,del:-10,anim:'d0'},
+    ]},
+  { id:'s2', label:'③ Arctic Ice', accent:'#38bdf8', base:'#020c18', filter:'liq',
+    btnGrad:'linear-gradient(135deg,#0ea5e9,#38bdf8,#e0f2fe)', btnGlow:'rgba(14,165,233,.5)',
+    blobs:[
+      {cx:22,cy:10,w:92,h:70,col:'#38bdf8',dur:22,del:0,anim:'d2'},
+      {cx:70,cy:8,w:80,h:64,col:'#06b6d4',dur:26,del:-5,anim:'d0'},
+      {cx:50,cy:48,w:98,h:80,col:'#7dd3fc',dur:30,del:-10,anim:'d1'},
+      {cx:16,cy:68,w:80,h:60,col:'#e0f2fe',dur:18,del:-4,anim:'d3'},
+      {cx:82,cy:60,w:74,h:62,col:'#0369a1',dur:32,del:-15,anim:'d2'},
+      {cx:58,cy:24,w:70,h:54,col:'#a5f3fc',dur:14,del:-7,anim:'d0'},
+      {cx:38,cy:82,w:88,h:60,col:'#bae6fd',dur:26,del:-11,anim:'d1'},
+    ]},
+  { id:'s3', label:'④ Golden Hour', accent:'#f59e0b', base:'#0e0800', filter:'liq',
+    btnGrad:'linear-gradient(135deg,#d97706,#f59e0b,#fde68a)', btnGlow:'rgba(245,158,11,.5)',
+    blobs:[
+      {cx:20,cy:12,w:90,h:68,col:'#f59e0b',dur:19,del:0,anim:'d3'},
+      {cx:74,cy:9,w:84,h:66,col:'#fb7185',dur:23,del:-5,anim:'d1'},
+      {cx:50,cy:48,w:98,h:80,col:'#f97316',dur:28,del:-9,anim:'d0'},
+      {cx:15,cy:68,w:80,h:60,col:'#fde68a',dur:17,del:-3,anim:'d2'},
+      {cx:85,cy:63,w:72,h:62,col:'#c026d3',dur:29,del:-13,anim:'d1'},
+      {cx:60,cy:24,w:68,h:52,col:'#fbbf24',dur:16,del:-7,anim:'d3'},
+      {cx:36,cy:80,w:86,h:60,col:'#db2777',dur:25,del:-11,anim:'d0'},
+    ]},
+  // ── ⑤ BIRDS — premium golden-hour migration ───────────────────────
+  { id:'s4', label:'⑤ Birds', accent:'#fbbf24', base:'#0a0618', filter:'liq2', birds:true,
+    btnGrad:'linear-gradient(135deg,#f59e0b,#fb7185,#a855f7)', btnGlow:'rgba(245,158,11,.45)',
+    blobs:[
+      {cx:72,cy:30,w:95,h:80,col:'#f59e0b',dur:30,del:0,anim:'d0'},   // warm glow around sun
+      {cx:30,cy:18,w:80,h:62,col:'#7c3aed',dur:34,del:-6,anim:'d2'},
+      {cx:50,cy:60,w:95,h:74,col:'#db2777',dur:36,del:-12,anim:'d1'},
+      {cx:15,cy:72,w:78,h:60,col:'#4f46e5',dur:28,del:-4,anim:'d3'},
+      {cx:88,cy:70,w:72,h:60,col:'#fb7185',dur:38,del:-16,anim:'d2'},
+      {cx:45,cy:38,w:70,h:55,col:'#9333ea',dur:24,del:-8,anim:'d0'},
+    ]},
+];
+
+// ── build tabs ────────────────────────────────────────────────────────
+const tabsEl=document.getElementById('tabs');
+SCENES.forEach((sc,i)=>{
+  const t=document.createElement('div');
+  t.className='tab'+(i===0?' active':'');
+  t.textContent=sc.label;
+  t.style.setProperty('--accent',sc.accent);
+  t.onclick=()=>show(i);
+  tabsEl.appendChild(t);
+});
+
+// ── build scenes (NO innerHTML += — append nodes so canvases survive) ──
+SCENES.forEach((sc,i)=>{
+  const div=document.createElement('div');
+  div.className='scene'+(i===0?' active':'');
+  div.id=sc.id;
+  div.style.background=sc.base;
+
+  // blobs layer (z1)
+  const blobsDiv=document.createElement('div');
+  blobsDiv.className='blobs';
+  blobsDiv.style.filter=`url(#${sc.filter})`;
+  sc.blobs.forEach(b=>{
+    const d=document.createElement('div');
+    d.className='blob';
+    d.style.cssText=`left:${b.cx-b.w/2}%;top:${b.cy-b.h/2}%;width:${b.w}%;height:${b.h}%;
+      background:radial-gradient(ellipse at 38% 38%,${b.col}60 0%,${b.col}28 38%,${b.col}08 65%,transparent 80%);
+      animation:${b.anim} ${b.dur}s ${b.del}s ease-in-out infinite;`;
+    blobsDiv.appendChild(d);
+  });
+  div.appendChild(blobsDiv);
+
+  // atmosphere canvas: grain + vignette (+ sun & birds for birds scene) (z3)
+  const atm=document.createElement('canvas');
+  atm.className='layer'; atm.id='atm'+i; atm.style.zIndex=3;
+  div.appendChild(atm);
+
+  // phone (z60) + label
+  const phone=document.createElement('div');
+  phone.className='phone';
+  phone.style.setProperty('--btn-glow',sc.btnGlow);
+  phone.innerHTML=`
+    <div class="badge" style="color:${sc.accent}"><span class="dot" style="background:${sc.accent}"></span>DÜŞÜN · BİL · KAZAN</div>
+    <div class="title">Bildim<br>bildim!</div>
+    <div class="sub">İpuçlarını oku, cevabı bul.<br>Kaç ipucunda bileceksin?</div>
+    <div class="btn" style="background:${sc.btnGrad}">KATEGORİ SEÇ →</div>
+    <div class="chips"><div class="chip">🌍 Ülkeler</div><div class="chip">🏙️ Şehirler</div><div class="chip">🦁 Hayvanlar</div></div>`;
+  div.appendChild(phone);
+
+  const lbl=document.createElement('div');
+  lbl.className='lbl'; lbl.textContent=sc.label.slice(2).trim();
+  div.appendChild(lbl);
+
+  document.body.appendChild(div);
+});
+
+function show(i){
+  document.querySelectorAll('.scene').forEach((s,j)=>s.classList.toggle('active',i===j));
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+}
+
+function fit(cv){
+  // Scenes can be display:none at init (offsetWidth=0), so size to the viewport.
+  const w=window.innerWidth, h=window.innerHeight-46;
+  cv.width=w*devicePixelRatio;
+  cv.height=h*devicePixelRatio;
+  return[cv.width,cv.height];
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// ATMOSPHERE — grain + vignette for every scene; sun + flocks for birds
+// ══════════════════════════════════════════════════════════════════════
+SCENES.forEach((sc,idx)=>{
+  const cv=document.getElementById('atm'+idx);
+  const ctx=cv.getContext('2d');
+  const DPR=devicePixelRatio;
+  let W,H,birds=null;
+
+  // ── 3D bird field ──────────────────────────────────────────────────
+  // Each bird lives in world space (x,y,z) and moves with a 3D velocity.
+  // Perspective projection: nearer (small z) = bigger, faster-looking, more
+  // opaque; far (large z) = tiny, faint, slightly hazy. Birds fly in every
+  // direction and respawn on the far side when they leave the frustum.
+  const Z_NEAR=0.30, Z_FAR=11.0;   // wide range = strong depth
+  const FOV=0.70;                  // projection spread
+  const BASE_SPAN=58;              // wing half-span in px at z=1
+
+  function spawnBird(fresh){
+    // Birds are born DEEP and fly toward the camera (z shrinks), passing the
+    // viewer. fresh=true scatters them through the volume on first load.
+    const z = fresh ? Z_NEAR + Math.random()*(Z_FAR-Z_NEAR) : Z_FAR;
+    return {
+      x:(Math.random()*2-1)*1.4,   // offset from centre — spreads outward as it nears
+      y:(Math.random()*2-1)*1.0,
+      z,
+      vx:(Math.random()*2-1)*0.0004,            // slight lateral drift
+      vy:(Math.random()*2-1)*0.0003,
+      vz:-(0.0022+Math.random()*0.0050),        // always toward camera (deep → near)
+      flapSpeed:0.004+Math.random()*0.004,
+      flapPhase:Math.random()*Math.PI*2,
+      flapAmp:0.8+Math.random()*0.4,
+    };
+  }
+
+  function buildBirds(){
+    // Count scales with screen area (fewer on a phone, more on desktop) and
+    // is randomised each session so the flock is never the same twice.
+    const area=(W*H)/(devicePixelRatio*devicePixelRatio);
+    const density=area/24000;                 // ~ birds per screen
+    const N=Math.round(density*(0.7+Math.random()*0.6));   // ±random spread
+    return Array.from({length:Math.max(18,Math.min(80,N))},()=>spawnBird(true));
+  }
+
+  function resize(){
+    [W,H]=fit(cv);
+    if(sc.birds) birds=buildBirds();
+  }
+  window.addEventListener('resize',resize); resize();
+
+  function project(b){
+    const sx = W*0.5  + (b.x/b.z)*W*FOV;
+    const sy = H*0.45 + (b.y/b.z)*H*FOV;
+    const span = (BASE_SPAN/b.z)*DPR;
+    return [sx, sy, span];
+  }
+
+  // ── filled abstract bird silhouette, rotated to flight heading ──
+  function drawBird(cx,cy,sz,flap,angle,fill){
+    const up   = flap*sz*0.55;   // wingtip lift
+    const body = sz*0.16;        // body droop
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(angle);
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.quadraticCurveTo(-sz*0.50, -up*0.65, -sz, -up);
+    ctx.quadraticCurveTo(-sz*0.45, -up*0.15+body, 0, body);
+    ctx.quadraticCurveTo( sz*0.45, -up*0.15+body,  sz, -up);
+    ctx.quadraticCurveTo( sz*0.50, -up*0.65, 0, 0);
+    ctx.closePath();
+    ctx.fillStyle=fill;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // ── glowing celestial sun + god rays ──
+  function drawSun(ts){
+    const sx=W*0.72, sy=H*0.30;
+    const pulse=1+0.04*Math.sin(ts*0.0006);
+    const R=H*0.20*pulse;
+
+    // outer halo
+    let g=ctx.createRadialGradient(sx,sy,0,sx,sy,R*2.6);
+    g.addColorStop(0,  'rgba(255,236,190,0.55)');
+    g.addColorStop(0.18,'rgba(255,210,140,0.30)');
+    g.addColorStop(0.45,'rgba(251,146,60,0.12)');
+    g.addColorStop(1,  'rgba(251,146,60,0)');
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(sx,sy,R*2.6,0,Math.PI*2); ctx.fill();
+
+    // bright core
+    let gc=ctx.createRadialGradient(sx,sy,0,sx,sy,R*0.6);
+    gc.addColorStop(0,'rgba(255,250,235,0.95)');
+    gc.addColorStop(0.6,'rgba(255,232,180,0.7)');
+    gc.addColorStop(1,'rgba(255,210,150,0)');
+    ctx.fillStyle=gc;
+    ctx.beginPath(); ctx.arc(sx,sy,R*0.6,0,Math.PI*2); ctx.fill();
+
+    // slow rotating god rays
+    ctx.save();
+    ctx.translate(sx,sy);
+    ctx.rotate(ts*0.00004);
+    ctx.globalCompositeOperation='screen';
+    const rays=12;
+    for(let i=0;i<rays;i++){
+      const a=(i/rays)*Math.PI*2;
+      const len=R*(2.0+0.5*Math.sin(ts*0.0008+i));
+      const w=0.06;
+      const grd=ctx.createLinearGradient(0,0,Math.cos(a)*len,Math.sin(a)*len);
+      grd.addColorStop(0,'rgba(255,224,170,0.10)');
+      grd.addColorStop(1,'rgba(255,224,170,0)');
+      ctx.fillStyle=grd;
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(Math.cos(a-w)*len, Math.sin(a-w)*len);
+      ctx.lineTo(Math.cos(a+w)*len, Math.sin(a+w)*len);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  function drawFlocks(ts){
+    // advance + cull
+    birds.forEach((b,i)=>{
+      b.x += b.vx; b.y += b.vy; b.z += b.vz;
+      const off = (b.z<Z_NEAR || b.z>Z_FAR ||
+                   Math.abs(b.x/b.z)>2.0 || Math.abs(b.y/b.z)>1.7);
+      if(off) birds[i]=spawnBird(false);
+    });
+
+    // draw far → near
+    const order=birds.map((b,i)=>i).sort((a,c)=>birds[c].z-birds[a].z);
+    order.forEach(i=>{
+      const b=birds[i];
+      const [sx,sy,span]=project(b);
+
+      // Wings stay horizontal — no banking. A whisper of lateral lean only.
+      const angle=Math.max(-0.18,Math.min(0.18, b.vx*40));
+
+      // depth shading: near = dark & solid, far = faint & hazy
+      const t=(b.z-Z_NEAR)/(Z_FAR-Z_NEAR);     // 0 near → 1 far
+      const alpha=0.95-0.74*t;
+      const haze=(b.z<0.6)? (0.6-b.z)*6 : (b.z>8? (b.z-8)*0.9 : 0);
+
+      if(haze>0.15){ ctx.save(); ctx.filter=`blur(${Math.min(haze,5)*DPR}px)`; }
+      const flap=Math.sin(ts*b.flapSpeed+b.flapPhase)*b.flapAmp;
+      drawBird(sx, sy, span, flap, angle, `rgba(14,9,20,${alpha})`);
+      if(haze>0.15) ctx.restore();
+    });
+  }
+
+  function frame(ts){
+    ctx.clearRect(0,0,W,H);
+
+    // fine grain base (putImageData ignores blending, so it must go first)
+    const id=ctx.createImageData(W,H); const d=id.data;
+    for(let k=0;k<d.length;k+=4){
+      const v=((Math.random()-.5)*8)|0;
+      d[k]=d[k+1]=d[k+2]=128+v; d[k+3]=7;
+    }
+    ctx.putImageData(id,0,0);
+
+    if(sc.birds){
+      drawSun(ts);
+      drawFlocks(ts);
+    }
+
+    // cinematic vignette
+    const vg=ctx.createRadialGradient(W/2,H*0.45,H*0.08,W/2,H/2,H*0.82);
+    vg.addColorStop(0,'rgba(0,0,0,0)');
+    vg.addColorStop(1,'rgba(0,0,0,.62)');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+});
+</script>
+</body>
+</html>
