@@ -23,6 +23,10 @@ const DATA_COUNTS: Record<string, number> = {
   animals: animals.length,
 };
 
+// Dynamically compute the total number of hints across all items in all categories
+const _allItems = [...countries, ...cities, ...animals];
+const TOTAL_HINTS = _allItems.reduce((sum, item) => sum + item.hints.length, 0);
+
 function itemStats(id: string, available: boolean): string {
   if (!available) return 'Yakında';
   const count = DATA_COUNTS[id] ?? 0;
@@ -130,9 +134,10 @@ const CATS: Category[] = [
 ];
 
 const HOW_TO = [
-  { icon: '🃏', title: 'İpucunu oku',      desc: 'Kart üzerinde nadir bir bilgi görünür'      },
-  { icon: '👆', title: 'Kaydır ya da düşün', desc: 'Bildiğinde sağa kaydır'                   },
-  { icon: '✍️', title: 'Cevabını yaz',     desc: 'Az ipucuyla daha fazla puan kazan'          },
+  { icon: '🃏', title: 'İpucunu oku',          desc: 'Her turda nadir bilgiler içeren bir kart belirir'           },
+  { icon: '⚡', title: 'Sonraki!', desc: 'Daha fazla ipucu için sola kaydır; ya da "Sonraki" butonuna bas' },
+  { icon: '⚡', title: 'Bildim!', desc: 'Cevabı biliyorsan "Bildim!" butonuna bas' },
+  { icon: '🏆', title: 'Az hatayla çok puan',  desc: 'Maksimum 5 puan — her yanlış tahmin 1 puan düşürür'        },
 ];
 
 // ─── Typewriter ──────────────────────────────────────────────────────────────
@@ -370,9 +375,9 @@ function SectionDivider({ label }: { label: string }) {
 
 // ─── Stats bar ───────────────────────────────────────────────────────────────
 const STATS = [
-  { numeric: 4,    display: '4', label: 'farklı oyun', color: '#818cf8' },
-  { numeric: 5,    display: '5', label: 'ipucu',       color: '#f59e0b' },
-  { numeric: null, display: '∞', label: 'tekrar hakkı',color: '#34d399' },
+  { numeric: 4,           display: '4',               label: 'farklı oyun', color: '#818cf8' },
+  { numeric: TOTAL_HINTS, display: String(TOTAL_HINTS), label: 'farklı bilgi',     color: '#f59e0b' },
+  { numeric: null,        display: '∞',               label: 'tekrar hakkı',color: '#34d399' },
 ];
 
 function CountUp({ target, duration = 900, delay = 0, style }: {
@@ -503,7 +508,7 @@ const sb = StyleSheet.create({
 export function LandingScreen({ onSelect }: { onSelect: (id: string) => void }) {
   const { width, height } = useWindowDimensions();
   const layout = createLayout(width, height);
-  const tagline     = useTypewriter('DÜŞÜN · BİL · KAZAN', 55, 350);
+  const tagline     = useTypewriter('DÜŞÜN · TAHMİN ET · ÖĞREN', 55, 350);
   const heroOpacity = useRef(new Animated.Value(0)).current;
   const heroY       = useRef(new Animated.Value(-16)).current;
   const statsOp     = useRef(new Animated.Value(0)).current;

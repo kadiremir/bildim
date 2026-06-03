@@ -34,6 +34,32 @@ const NATIVE_PATTERNS: Record<SoundType, Tone[]> = {
 let audioModeReady = false;
 const activePlayers = new Set<AudioPlayer>();
 
+// ---------- Preloaded singletons (eliminates fetch+decode delay on every wrong answer) ----------
+
+// Web: single <audio> element, loaded once
+let _wrongAudioEl: HTMLAudioElement | null = null;
+function getWrongAudioEl(): HTMLAudioElement | null {
+  if (typeof window === 'undefined') return null;
+  if (!_wrongAudioEl) {
+    _wrongAudioEl = new window.Audio(WRONG_MP3);
+    _wrongAudioEl.volume = 0.85;
+    _wrongAudioEl.load(); // trigger preload immediately
+  }
+  return _wrongAudioEl;
+}
+// Kick off the preload as soon as the module is imported on web
+if (typeof window !== 'undefined') getWrongAudioEl();
+
+// Native: single AudioPlayer, created on first use
+let _wrongPlayer: AudioPlayer | null = null;
+async function getWrongPlayer(): Promise<AudioPlayer> {
+  await ensureNativeAudioMode();
+  if (!_wrongPlayer) {
+    _wrongPlayer = createAudioPlayer(WRONG_MP3, { keepAudioSessionActive: true });
+  }
+  return _wrongPlayer;
+}
+
 function encodeBase64(bytes: Uint8Array): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   let result = '';
@@ -154,6 +180,11 @@ function playTone(
 ) {
   const ctx = getAudioContext();
   if (!ctx) return;
+  // Resume context if suspended (browser autoplay policy can leave it suspended,
+  // causing a noticeable delay on the first sound after page load)
+  if (ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
   const osc = ctx.createOscillator();
   const gainNode = ctx.createGain();
   osc.connect(gainNode);
@@ -178,20 +209,18 @@ function playChord(notes: number[], duration: number, gain: number) {
 
 async function playWrongMp3() {
   if (Platform.OS === 'web') {
-    // On web, use an Audio element to play the bundled MP3
-    const audio = new window.Audio(WRONG_MP3);
-    audio.volume = 0.85;
-    audio.play().catch(() => {});
+    // Reuse the preloaded <audio> element — avoids fetch+decode delay on every wrong answer
+    const audio = getWrongAudioEl();
+    if (audio) {
+      audio.currentTime = 0; // rewind to start so rapid re-plays work
+      audio.play().catch(() => {});
+    }
     return;
   }
-  await ensureNativeAudioMode();
-  const player = createAudioPlayer(WRONG_MP3, { keepAudioSessionActive: true });
-  activePlayers.add(player);
+  // Native: reuse a single preloaded player — avoids createAudioPlayer allocation delay
+  const player = await getWrongPlayer();
+  player.seekTo(0);
   player.play();
-  setTimeout(() => {
-    activePlayers.delete(player);
-    player.remove();
-  }, 3000);
 }
 
 export function playSound(type: SoundType) {

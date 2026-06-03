@@ -112,6 +112,8 @@ export function GameScreen({ category, onBack }: Props) {
   const cardAreaHeight = height * 0.50;
   const cardWidth = Math.max(1, width - 40);
   const cardHeight = Math.max(240, cardAreaHeight);
+  const isDesktop = width >= 900;
+  const btnWrapWidth = isDesktop ? width * 0.25 : width * 0.5;
   const gameContent = useMemo(() => {
     return CATEGORY_CONTENT[category as keyof typeof CATEGORY_CONTENT] ?? CATEGORY_CONTENT.countries;
   }, [category]);
@@ -363,11 +365,24 @@ export function GameScreen({ category, onBack }: Props) {
             <View style={styles.swipeActions}>
               <View style={styles.actionRow}>
                 {/* Sonraki ipucu */}
-                <TouchableOpacity
-                  style={[styles.skipBtn, isLastHint && styles.skipBtnDisabled]}
-                  onPress={isLastHint ? undefined : () => { hapticLight(); handleSwipeLeft(); }}
-                  activeOpacity={isLastHint ? 1 : 0.75}
-                >
+                <View style={[styles.skipWrap, { width: btnWrapWidth }]}>
+                  {!isLastHint && (
+                    <Animated.View
+                      pointerEvents="none"
+                      style={[
+                        styles.skipGlowRing,
+                        {
+                          opacity: bildimGlow.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }),
+                          transform: [{ scale: bildimGlow.interpolate({ inputRange: [0, 1], outputRange: [1, 1.06] }) }],
+                        },
+                      ]}
+                    />
+                  )}
+                  <TouchableOpacity
+                    style={[styles.skipBtn, isLastHint && styles.skipBtnDisabled]}
+                    onPress={isLastHint ? undefined : () => { hapticLight(); handleSwipeLeft(); }}
+                    activeOpacity={isLastHint ? 1 : 0.75}
+                  >
                   <LinearGradient
                     colors={isLastHint ? ['#1a1e2a', '#141820'] : ['#f97316', '#ea580c']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
@@ -388,10 +403,9 @@ export function GameScreen({ category, onBack }: Props) {
                       {isLastHint ? 'Başka yok' : 'Sonraki'}
                     </Text>
                   </LinearGradient>
-                </TouchableOpacity>
-
-                {/* Bildim! — premium green with gloss overlay + pulsing glow */}
-                <View style={styles.bildimWrap}>
+                  </TouchableOpacity>
+                </View>
+                <View style={[styles.bildimWrap, { width: btnWrapWidth }]}>
                   <Animated.View
                     pointerEvents="none"
                     style={[
@@ -603,19 +617,27 @@ const styles = StyleSheet.create({
   },
 
   // Action area — anchored to bottom
-  actionArea: { flex: 1, justifyContent: 'flex-end', paddingBottom: 40 },
+  actionArea: { flex: 1, justifyContent: 'flex-end', paddingBottom: 80 },
 
   // Swipe actions
   swipeActions: { gap: 16 },
   actionRow: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     paddingHorizontal: 20,
-    gap: 10,
+    gap: 30,
+    alignItems: 'center',
   },
 
   // Sonraki
+  skipWrap: {},
+  skipGlowRing: {
+    position: 'absolute',
+    top: -6, left: -6, right: -6, bottom: -6,
+    borderRadius: 24,
+    backgroundColor: 'rgba(249,115,22,0.35)',
+  },
   skipBtn: {
-    flex: 1, height: 64, borderRadius: 20,
+    width: '100%', height: 60, borderRadius: 20,
     overflow: 'hidden',
     shadowColor: '#f97316',
     shadowOffset: { width: 0, height: 6 },
@@ -630,7 +652,7 @@ const styles = StyleSheet.create({
   skipLabelDim: { color: 'rgba(255,255,255,0.22)' },
 
   // Bildim! — primary rectangle with pulsing glow
-  bildimWrap: { flex: 1 },
+  bildimWrap: {},
   bildimGlowRing: {
     position: 'absolute',
     top: -6, left: -6, right: -6, bottom: -6,
@@ -638,7 +660,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(16,185,129,0.35)',
   },
   bildimBtn: {
-    flex: 1, height: 64, borderRadius: 20,
+    width: '100%', height: 60, borderRadius: 20,
     overflow: 'hidden',
     shadowColor: '#10b981',
     shadowOffset: { width: 0, height: 6 },
