@@ -205,11 +205,9 @@ function CategoryCard({ cat, i, th, onSelect, cardWidth, isMobile }: {
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const module = CARD_BG_IMAGES[cat.id];
-    console.log('[CardBG-early] cat=', cat.id, 'module=', module, typeof module);
     if (!module) return;
     let cancelled = false;
 
-    // Inject global ::before rule once
     if (!document.getElementById('card-bg-style')) {
       const s = document.createElement('style');
       s.id = 'card-bg-style';
@@ -217,9 +215,7 @@ function CategoryCard({ cat, i, th, onSelect, cardWidth, isMobile }: {
       document.head.appendChild(s);
     }
 
-    console.log('[CardBG] module=', module, 'cat=', cat.id, 'el=', !!(cardRef.current));
     Asset.fromModule(module).downloadAsync().then((asset) => {
-      console.log('[CardBG] resolved uri=', asset.localUri || asset.uri);
       if (cancelled) return;
       const uri = asset.localUri || asset.uri;
       if (!uri) return;
@@ -309,11 +305,11 @@ function CategoryCard({ cat, i, th, onSelect, cardWidth, isMobile }: {
 
             {/* icon */}
             <Animated.View style={{ flexShrink: 0, transform: [{ translateY: iconBob }] }}>
-              {IconComp && <IconComp th={th} size={isMobile ? 48 : 52} />}
+              {IconComp && <IconComp th={th} size={isMobile ? 80 : 52} />}
             </Animated.View>
 
             {/* text block */}
-            <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
+            <View style={{ flex: 1, minWidth: 0, gap: isMobile ? 8 : 3 }}>
               <Text style={[isMobile ? styles.cardLabelSm : styles.cardLabel, { color: th.text }]}>{cat.label}</Text>
               <Text style={[isMobile ? styles.cardSubSm : styles.cardSub, { color: th.sub }]} numberOfLines={2}>{cat.sub}</Text>
 
@@ -540,8 +536,9 @@ const styles = StyleSheet.create({
   },
   cardRow: {
     borderRadius: 18, borderWidth: 1,
-    paddingHorizontal: 14, paddingVertical: 12,
-    flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingHorizontal: 20, paddingVertical: 24,
+    flexDirection: 'row', alignItems: 'center', gap: 16,
+    minHeight: 130,
   },
   tagBadge: {
     alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4,
@@ -555,13 +552,13 @@ const styles = StyleSheet.create({
   tagBadgeText: { fontSize: 10, fontWeight: '800', letterSpacing: 1.5 },
   tagBadgeTextSm: { fontSize: 8, fontWeight: '800', letterSpacing: 1.5 },
   cardLabel: { fontSize: 19, fontWeight: '800', letterSpacing: -0.3 },
-  cardLabelSm: { fontSize: 15, fontWeight: '800', letterSpacing: -0.3 },
+  cardLabelSm: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   cardSub:   { fontSize: 12, lineHeight: 17, flex: 1 },
-  cardSubSm: { fontSize: 11, lineHeight: 15 },
+  cardSubSm: { fontSize: 14, lineHeight: 20 },
   playChip:  { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 7, alignSelf: 'flex-start', marginTop: 4 },
-  playChipSm: { borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, alignSelf: 'flex-start', marginTop: 2 },
+  playChipSm: { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-start', marginTop: 2 },
   playChipText: { fontSize: 12, fontWeight: '700' },
-  playChipTextSm: { fontSize: 10, fontWeight: '700' },
+  playChipTextSm: { fontSize: 12, fontWeight: '700' },
 
   // HowTo
   howCard: {
