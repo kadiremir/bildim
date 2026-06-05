@@ -15,7 +15,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { hapticLight, hapticMedium } from '../utils/haptics';
-import { playSound } from '../utils/sounds';
 
 // ─── BlankCell ────────────────────────────────────────────────────────────────
 
@@ -354,7 +353,6 @@ interface Props {
   category: string;
   answer: string;
   hintIndex: number;
-  totalHints: number;
   wrongCount: number;
   shakeSignal: number;
   isLastHint: boolean;
@@ -370,7 +368,6 @@ export function GuessModal({
   category,
   answer,
   hintIndex,
-  totalHints,
   wrongCount,
   shakeSignal,
   isLastHint,
@@ -607,7 +604,7 @@ const styles = StyleSheet.create({
     flex: 1, justifyContent: 'center', alignItems: 'center',
   },
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(0,0,0,0.88)',
   },
   cardWrap: {
@@ -617,7 +614,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.5, shadowRadius: 32, elevation: 24,
   },
-  cardBg:      { ...StyleSheet.absoluteFillObject },
+  cardBg:      { ...StyleSheet.absoluteFill },
   topAccent:   { height: 3 },
   flashOverlay: {
     borderRadius: 32,
